@@ -10,4 +10,10 @@ class Pais extends Model
     use HasFactory;
 
     protected $fillable = ['nome'];
+
+    //Relacionamento entre Pais e Estado
+    public function Estados()
+    {
+        return $this->hasMany(Estado::class);
+    }
 }
