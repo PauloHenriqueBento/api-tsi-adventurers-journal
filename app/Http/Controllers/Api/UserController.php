@@ -8,6 +8,7 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -28,8 +29,18 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($request->password);
 
+        $data['profile_photo_path'] = $request->profile_photo_path ? $this->storeImage($request->profile_photo_path, 'profile_photos') : null;
+        $data['profile_banner_path'] = $request->profile_banner_path ? $this->storeImage($request->profile_banner_path, 'profile_banner') : null;
+
         $user = User::create($data);
         return new UserResource($user);
+    }
+
+    public function storeImage($image, $path)
+    {
+        $filename = uniqid() . '.' . $image->getClientOriginalExtension();
+        Storage::putFileAs($path, $image, $filename);
+        return $filename;
     }
 
     //Retorna apenas um user
@@ -38,7 +49,7 @@ class UserController extends Controller
         try {
             $user = User::findOrFail($id);
             return new UserResource($user);
-        }catch(ModelNotFoundException $e){
+        } catch (ModelNotFoundException $e) {
             return response([
                 'Status' => 'Error',
                 'error' => '404'
@@ -49,12 +60,15 @@ class UserController extends Controller
     //Atualiza user
     public function update(StoreUpdateUserRequest $request, string $id)
     {
+        // dd($request->all());
         $user = User::findOrFail($id);
+
         $data = $request->all();
 
-        if($request->password){
+        if ($request->has('password')) {
             $data['password'] = bcrypt($request->password);
         }
+
         $user->update($data);
 
         return new UserResource($user);

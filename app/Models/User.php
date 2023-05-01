@@ -21,6 +21,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'data_nascimento',
+        'id_cidade',
+        'isGuia',
+        'profile_photo_path',
+        'profile_banner_path',
+        'modalidade',
+        'telefone',
+        'facebook_url',
+        'instagram_url',
+        'twitter_url',
+        'bio',
     ];
 
     /**

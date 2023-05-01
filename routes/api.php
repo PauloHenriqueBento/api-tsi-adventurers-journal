@@ -6,14 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
-Route::apiResource('/users', UserController::class);
+// Route::apiResource('/users', UserController::class);
 // Rota acima é a junção das rotas abaixo
 
-// Route::delete('/users/{id}', [UserController::class, 'destroy']);
-// Route::patch('/users/{id}', [UserController::class, 'update']);
-// Route::get('/users/{id}', [UserController::class, 'show']);
-// Route::get('/users', [UserController::class, 'index']);
-// Route::post('/users', [UserController::class, 'store']);
+Route::delete('/users/{id}', [UserController::class, 'destroy']);
+Route::patch('/users/{id}', [UserController::class, 'update']);
+Route::get('/users/{id}', [UserController::class, 'show']);
+Route::get('/users', [UserController::class, 'index']);
+Route::post('/users', [UserController::class, 'store']);
 
 Route::apiResource('/pais', PaisController::class);
 

@@ -34,24 +34,45 @@ class StoreUpdateUserRequest extends FormRequest
                 'required',
                 'min:6',
                 'max:100'
-            ]
+            ],
+            'data_nascimento' => 'nullable|date_format:Y-m-d',
+            'id_cidade' => 'nullable|integer',
+            'profile_photo_path' => 'nullable|image|max:2048',
+            'profile_banner_path' => 'nullable|image|max:2048',
+            'modalidade' => 'nullable|string',
+            'telefone' => 'nullable|string',
+            'facebook_url' => 'nullable|url',
+            'instagram_url' => 'nullable|url',
+            'twitter_url' => 'nullable|url',
+            'bio' => 'nullable|string'
         ];
 
         //Valida se é atualização, se for, usuario não precisa remandar alguns campos
 
-        if ($this->method() === "PATCH") {
-            $rules['password'] = [
-                'nullable',
-                'min:6',
-                'max:100'
-            ];
-
-            $rules['email'] = [
-                'required',
-                'email',
-                'max:255',
-                //Deixa o email unico, mas se for o já existente do proprio user não faça nada
-                "unique:users,email,{$this->id},id"
+        if ($this->method() == "PATCH" || $this->method() == "PUT") {
+            $rules = [
+                'name' => 'sometimes|min:3|max:255',
+                'email' => [
+                    'sometimes',
+                    'email',
+                    'max:255',
+                    "unique:users,email,{$this->id},id"
+                ],
+                'password' => [
+                    'nullable',
+                    'min:6',
+                    'max:100',
+                ],
+                'data_nascimento' => 'nullable|date_format:Y-m-d',
+                'id_cidade' => 'nullable|integer',
+                'profile_photo_path' => 'nullable|image|max:2048',
+                'profile_banner_path' => 'nullable|image|max:2048',
+                'modalidade' => 'nullable|string',
+                'telefone' => 'nullable|string',
+                'facebook_url' => 'nullable|url',
+                'instagram_url' => 'nullable|url',
+                'twitter_url' => 'nullable|url',
+                'bio' => 'nullable|string',
             ];
         }
 
