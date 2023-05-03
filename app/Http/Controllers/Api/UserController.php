@@ -25,7 +25,8 @@ class UserController extends Controller
     //Content-Type: application/json
     public function store(StoreUpdateUserRequest $request)
     {
-        // Pega apenas os dados validados no StoreUpdateUserRequest
+
+
         $data = $request->validated();
         $data['password'] = bcrypt($request->password);
 
@@ -60,7 +61,7 @@ class UserController extends Controller
     //Atualiza user
     public function update(StoreUpdateUserRequest $request, string $id)
     {
-        // dd($request->all());
+        return dd($request->all(), $id);
         $user = User::findOrFail($id);
 
         $data = $request->all();

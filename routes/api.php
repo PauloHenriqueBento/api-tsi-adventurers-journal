@@ -18,7 +18,7 @@ Route::post('/users', [UserController::class, 'store']);
 Route::apiResource('/pais', PaisController::class);
 
 
-Route::get('/', function(){
+Route::get('/', function () {
     return response()->json([
         'sucess' => true
     ]);
