@@ -39,8 +39,13 @@ class UserController extends Controller
 
     public function storeImage($image, $path)
     {
-        $filename = uniqid() . '.' . $image->getClientOriginalExtension();
-        Storage::putFileAs($path, $image, $filename);
+        $folderPath = "/{$path}/"; //path location
+        $image_parts = explode(";base64,", $image);
+        $image_type_aux = explode("image/", $image_parts[0]);
+        $extension = $image_type_aux[1];
+        $decodedImage = base64_decode($image_parts[1]);
+        $filename = uniqid() . '.' . $extension;
+        Storage::put($folderPath . $filename, $decodedImage);
         return $filename;
     }
 

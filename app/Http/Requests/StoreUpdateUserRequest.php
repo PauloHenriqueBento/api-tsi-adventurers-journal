@@ -40,8 +40,8 @@ class StoreUpdateUserRequest extends FormRequest
             ],
             'data_nascimento' => 'nullable|date_format:Y-m-d',
             'id_cidade' => 'nullable|integer',
-            'profile_photo_path' => 'nullable|image|max:2048',
-            'profile_banner_path' => 'nullable|image|max:2048',
+            'profile_photo_path' => 'nullable|string|max:4194304', //4 MB em bytes
+            'profile_banner_path' => 'nullable|string|max:4194304', //4 MB em bytes
             'modalidade' => 'nullable|string',
             'telefone' => 'nullable|string',
             'facebook_url' => 'nullable|url',
