@@ -9,7 +9,7 @@ class Estado extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome','uf'];
+    protected $fillable = ['nome','uf','pais_id'];
 
     protected $primaryKey = 'id';
 
@@ -21,9 +21,9 @@ class Estado extends Model
 
 
     //Relacionamento entre Pais e Estado
-    public function Pais()
+    public function pais()
     {
-        return $this->belongsTo(Pais::class);
+        return $this->belongsTo(Pais::class, 'pais_id','id');
     }
 
 }

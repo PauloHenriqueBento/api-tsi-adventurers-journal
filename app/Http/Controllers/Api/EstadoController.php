@@ -28,6 +28,7 @@ class EstadoController extends Controller
 
         $estado->nome = $request->nome;
         $estado->uf = $request->uf;
+        $estado->pais_id = $request->pais_id;
 
 
         $uf = $request->input('uf');
@@ -47,6 +48,19 @@ class EstadoController extends Controller
                 'mensagem' => 'Estado criado',
                 'estado' => new EstadoResource($estado)
             ], 200);
+        }
+    }
+
+    public function show(string $id)
+    {
+        try{
+            $estado = Estado::findOrFail($id);
+            return new EstadoResource($estado);
+        }catch(ModelNotFoundException $e){
+            return response([
+                'Status' => 'Error',
+                'error' => '404'
+            ], 404);
         }
     }
 

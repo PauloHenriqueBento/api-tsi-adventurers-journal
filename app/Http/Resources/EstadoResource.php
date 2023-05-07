@@ -19,7 +19,8 @@ class EstadoResource extends JsonResource
         return [
             'id' => $this->id,
             'nome' => $this->nome,
-            'uf' => $this->uf
+            'uf' => $this->uf,
+            'pais_id' => $this->Pais
         ];
     }
 }

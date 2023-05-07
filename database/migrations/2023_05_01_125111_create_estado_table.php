@@ -15,18 +15,16 @@ return new class extends Migration
             $table->id();
             $table->string('nome');
             $table->string('uf')->unique();
-            $table->timestamps();
-
 
             //Parte da chave estrangeira da tabela Pais p/ Estado
             //Depois preciso alterar para que não seja possivel pais_id ser Null
-            $table->unsignedBigInteger("pais_id")->nullable();
-            $table->foreign("pais_id")
-                            ->references("id")
-                            ->on("pais")
-                            ->onUpdate('cascade')
-                            ->onDelete("cascade")
-                            ->nullable();
+            $table->unsignedBigInteger('pais_id');//->nullable();
+            $table->foreign('pais_id')
+                            ->references('id')
+                            ->on('pais');
+            //$table->foreignId('pais_id')->constrained();
+            //$table->foreign('pais_id')->references('id')->on('pais');
+            $table->timestamps();
         });
     }
 
