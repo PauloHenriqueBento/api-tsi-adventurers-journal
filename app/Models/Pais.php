@@ -12,7 +12,7 @@ class Pais extends Model
     protected $fillable = ['nome'];
 
     //Relacionamento entre Pais e Estado
-    public function estados()
+    public function estado()
     {
         return $this->hasMany(Estado::class, 'pais_id', 'id');
     }

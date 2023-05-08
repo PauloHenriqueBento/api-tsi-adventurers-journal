@@ -26,4 +26,8 @@ class Estado extends Model
         return $this->belongsTo(Pais::class, 'pais_id','id');
     }
 
+    public function cidade()
+    {
+        return $this->hasMany(Cidade::class, 'estado_id', 'id');
+    }
 }
