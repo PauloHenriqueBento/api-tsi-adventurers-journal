@@ -3,33 +3,32 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreUpdatePaisRequest;
-use App\Http\Resources\PaisResource;
-use App\Http\Resources\UserResource;
-use App\Models\Pais;
+use App\Http\Requests\StoreUpdateModalidadeRequest;
+use App\Http\Resources\ModalidadeResource;
+use App\Models\Modalidade;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
-class PaisController extends Controller
+class ModalidadeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $pais = Pais::all();
-        return PaisResource::collection($pais);
+        $modalidades = Modalidade::all();
+        return ModalidadeResource::collection($modalidades);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreUpdatePaisRequest $request)
+    public function store(StoreUpdateModalidadeRequest $request)
     {
         $data = $request->validated();
-        $pais = Pais::create($data);
+        $modalidades = Modalidade::create($data);
 
-        return new PaisResource($pais);
+        return new ModalidadeResource($modalidades);
     }
 
     /**
@@ -38,9 +37,9 @@ class PaisController extends Controller
     public function show(string $id)
     {
         try{
-            $pais = Pais::findOrFail($id);
-            return new PaisResource($pais);
-        }catch(ModelNotFoundException $e){
+            $modalidades = Modalidade::findOrFail($id);
+            return new ModalidadeResource($modalidades);
+        }catch(ModelNotFoundException){
             return response([
                 'Status' => 'Error',
                 'error' => '404'
@@ -51,12 +50,12 @@ class PaisController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreUpdatePaisRequest $request, string $id)
+    public function update(StoreUpdateModalidadeRequest $request, string $id)
     {
-        $pais = Pais::findOrfail($id);
+        $modalidades = Modalidade::findOrFail($id);
         $data = $request->all();
-        $pais->update($data);
-        return new PaisResource($pais);
+        $modalidades->update($data);
+        return new ModalidadeResource($modalidades);
     }
 
     /**
@@ -64,7 +63,7 @@ class PaisController extends Controller
      */
     public function destroy(string $id)
     {
-        $pais = Pais::findOrFail($id)->delete();
+        $modalidades = Modalidade::findOrFail($id)->delete();
         return response()->json([], 204);
     }
 }

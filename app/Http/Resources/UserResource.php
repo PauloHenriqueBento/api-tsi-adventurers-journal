@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'cidade' => $this->id_cidade,
             'foto URL' => $this->profile_photo_path,
             'banner URL' => $this->profile_banner_path,
-            'modalidade' => $this->modalidade,
+            'modalidade' => ModalidadeResource::collection($this->modalidades),
             'telefone' => $this->telefone,
             'facebook' => $this->facebook_url,
             'instagram' => $this->instagram_url,

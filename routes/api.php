@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PaisController;
+use App\Http\Controllers\Api\ModalidadeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,7 @@ Route::post('/users', [UserController::class, 'store']);
 
 Route::apiResource('/pais', PaisController::class);
 
+Route::apiResource('/modalidades', ModalidadeController::class);
 
 Route::get('/', function () {
     return response()->json([

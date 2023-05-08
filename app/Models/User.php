@@ -52,4 +52,9 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function modalidades()
+    {
+        return $this->belongsToMany(Modalidade::class, 'user_modalidade', 'users_id', 'modalidades_id');
+    }
 }

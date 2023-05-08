@@ -42,7 +42,7 @@ class StoreUpdateUserRequest extends FormRequest
             'id_cidade' => 'nullable|integer',
             'profile_photo_path' => 'nullable|string|max:4194304', //4 MB em bytes
             'profile_banner_path' => 'nullable|string|max:4194304', //4 MB em bytes
-            'modalidade' => 'nullable|string',
+            'modalidade' => 'nullable|array|min:1',
             'telefone' => 'nullable|string',
             'facebook_url' => 'nullable|url',
             'instagram_url' => 'nullable|url',
@@ -70,7 +70,7 @@ class StoreUpdateUserRequest extends FormRequest
                 'id_cidade' => 'nullable|integer',
                 'profile_photo_path' => 'nullable|image|max:2048',
                 'profile_banner_path' => 'nullable|image|max:2048',
-                'modalidade' => 'nullable|string',
+                'modalidade' => 'nullable|array|min:1',
                 'telefone' => 'nullable|string',
                 'facebook_url' => 'nullable|url',
                 'instagram_url' => 'nullable|url',

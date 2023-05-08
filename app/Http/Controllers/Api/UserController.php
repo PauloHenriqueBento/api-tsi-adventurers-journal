@@ -25,15 +25,13 @@ class UserController extends Controller
     //Content-Type: application/json
     public function store(StoreUpdateUserRequest $request)
     {
-
-
         $data = $request->validated();
         $data['password'] = bcrypt($request->password);
 
         $data['profile_photo_path'] = $request->profile_photo_path ? $this->storeImage($request->profile_photo_path, 'profile_photos') : null;
-        $data['profile_banner_path'] = $request->profile_banner_path ? $this->storeImage($request->profile_banner_path, 'profile_banner') : null;
-
+        $data['profile_banner_path'] = $request->profile_banner_path ? $this->storeImage($request->profile_banner_path, 'profile_banner') : null; 
         $user = User::create($data);
+        $user->modalidades()->attach($request->input('modalidades'));
         return new UserResource($user);
     }
 
@@ -66,7 +64,7 @@ class UserController extends Controller
     //Atualiza user
     public function update(StoreUpdateUserRequest $request, string $id)
     {
-        return dd($request->all(), $id);
+        // return dd($request->all(), $id);
         $user = User::findOrFail($id);
 
         $data = $request->all();
@@ -76,6 +74,10 @@ class UserController extends Controller
         }
 
         $user->update($data);
+
+        if ($request->has('modalidades')) {
+            $user->modalidades()->sync($request->modalidades);
+        }
 
         return new UserResource($user);
     }
