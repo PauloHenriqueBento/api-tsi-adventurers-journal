@@ -17,12 +17,12 @@ class UserResource extends JsonResource
     {
         return [
             'identify' => $this->id,
-            'name'  =>strtoupper ($this->name),
-            'data nascimento' => $this->data_nascimento,
+            'name'  => strtoupper($this->name),
+            'data_nascimento' => $this->data_nascimento,
             'email' => $this->email,
             'cidade' => $this->id_cidade,
-            'foto URL' => $this->profile_photo_path,
-            'banner URL' => $this->profile_banner_path,
+            'foto_URL' => $this->profile_photo_path,
+            'banner_URL' => $this->profile_banner_path,
             'modalidade' => ModalidadeResource::collection($this->modalidades),
             'telefone' => $this->telefone,
             'facebook' => $this->facebook_url,
