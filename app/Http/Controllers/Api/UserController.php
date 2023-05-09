@@ -34,7 +34,12 @@ class UserController extends Controller
         $data['profile_banner_path'] = $request->profile_banner_path ? $this->storeImage($request->profile_banner_path, 'profile_banner') : null;
         $user = User::create($data);
         $user->modalidades()->attach($request->input('modalidades'));
-        return new UserResource($user);
+
+        $token = $user->createToken('api_token')->plainTextToken;
+        return [
+            'user' => new UserResource($user),
+            'token' => $token,
+        ];
     }
 
     public function storeImage($image, $path)
