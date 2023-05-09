@@ -23,6 +23,12 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/csrf_token', function () {
+    return response()->json([
+        'token' => csrf_token(),
+    ]);
+});
+
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 
 Route::post('/login', [AuthController::class, 'loginUser']);
