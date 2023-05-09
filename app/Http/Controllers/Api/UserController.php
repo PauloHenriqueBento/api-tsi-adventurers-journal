@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -29,7 +31,7 @@ class UserController extends Controller
         $data['password'] = bcrypt($request->password);
 
         $data['profile_photo_path'] = $request->profile_photo_path ? $this->storeImage($request->profile_photo_path, 'profile_photos') : null;
-        $data['profile_banner_path'] = $request->profile_banner_path ? $this->storeImage($request->profile_banner_path, 'profile_banner') : null; 
+        $data['profile_banner_path'] = $request->profile_banner_path ? $this->storeImage($request->profile_banner_path, 'profile_banner') : null;
         $user = User::create($data);
         $user->modalidades()->attach($request->input('modalidades'));
         return new UserResource($user);
@@ -48,24 +50,32 @@ class UserController extends Controller
     }
 
     //Retorna apenas um user
-    public function show(string $id)
+    public function show()
     {
-        try {
-            $user = User::findOrFail($id);
-            return new UserResource($user);
-        } catch (ModelNotFoundException $e) {
-            return response([
-                'Status' => 'Error',
-                'error' => '404'
-            ], 404);
-        }
+        $user = Auth::user();
+        $this->authorize('view', $user);
+        return new UserResource($user);
+        // try {
+        //     $user = User::findOrFail($id);
+        //     $this->authorize('view', $user);
+        //     return new UserResource($user);
+        // } catch (ModelNotFoundException $e) {
+        //     return response([
+        //         'Status' => 'Error',
+        //         'error' => '404'
+        //     ], 404);
+        // } catch (AuthorizationException $e) {
+        //     return response([
+        //         'Status' => 'Error',
+        //         'error' => 'Usuário não autorizado'
+        //     ], 403);
+        // }
     }
 
     //Atualiza user
-    public function update(StoreUpdateUserRequest $request, string $id)
+    public function update(StoreUpdateUserRequest $request)
     {
-        // return dd($request->all(), $id);
-        $user = User::findOrFail($id);
+        $user = $request->user(); // pega o usuário autenticado
 
         $data = $request->all();
 

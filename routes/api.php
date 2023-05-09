@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\ModalidadeController;
@@ -10,11 +11,7 @@ use Illuminate\Support\Facades\Route;
 // Route::apiResource('/users', UserController::class);
 // Rota acima é a junção das rotas abaixo
 
-Route::delete('/users/{id}', [UserController::class, 'destroy']);
-Route::patch('/users/{id}', [UserController::class, 'update']);
-Route::get('/users/{id}', [UserController::class, 'show']);
-Route::get('/users', [UserController::class, 'index']);
-Route::post('/users', [UserController::class, 'store']);
+
 
 Route::apiResource('/pais', PaisController::class);
 
@@ -24,4 +21,17 @@ Route::get('/', function () {
     return response()->json([
         'sucess' => true
     ]);
+});
+
+Route::post('/auth/register', [AuthController::class, 'createUser']);
+
+Route::post('/login', [AuthController::class, 'loginUser']);
+Route::post('/users', [UserController::class, 'store']);
+Route::get('/users', [UserController::class, 'index']);
+
+Route::middleware('auth:sanctum')->group(function() {
+    Route::delete('/users/{id}', [UserController::class, 'destroy']);
+    Route::patch('/user/', [UserController::class, 'update']);
+    Route::get('/user', [UserController::class, 'show']);
+    Route::post('/logout', [AuthController::class, 'logout']);
 });
