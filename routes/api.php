@@ -19,7 +19,7 @@ Route::apiResource('/modalidades', ModalidadeController::class);
 
 Route::get('/', function () {
     return response()->json([
-        'sucess' => true
+        'sucess' => true,
     ]);
 });
 
@@ -29,7 +29,7 @@ Route::post('/login', [AuthController::class, 'loginUser']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users', [UserController::class, 'index']);
 
-Route::middleware('auth:sanctum')->group(function() {
+Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
     Route::patch('/user/', [UserController::class, 'update']);
     Route::get('/user', [UserController::class, 'show']);
