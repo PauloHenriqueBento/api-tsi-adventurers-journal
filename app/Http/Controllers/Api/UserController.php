@@ -37,7 +37,7 @@ class UserController extends Controller
 
         $token = $user->createToken('api_token')->plainTextToken;
         return [
-            'user' => new UserResource($user),
+            'user' => new UserResource($user, 'teste'),
             'token' => $token,
         ];
     }
@@ -60,6 +60,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $this->authorize('view', $user);
+        $user->base64 = true;
         return new UserResource($user);
         // try {
         //     $user = User::findOrFail($id);
