@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\EstadoController;
 use App\Http\Controllers\Api\CidadeController;
+use App\Http\Controllers\Api\DestinoController;
 
 Route::apiResource('/users', UserController::class);
 // Rota acima é a junção das rotas abaixo
@@ -21,7 +22,7 @@ Route::apiResource('/pais', PaisController::class);
 Route::apiResource('Api/estado', EstadoController::class);
 Route::apiResource('Api/cidade', CidadeController::class);
 
-
+Route::apiResource('Api/destino', DestinoController::class);
 Route::get('/', function(){
     return response()->json([
         'sucess' => true
