@@ -37,13 +37,14 @@ class UserController extends Controller
 
         $token = $user->createToken('api_token')->plainTextToken;
         return [
-            'user' => new UserResource($user),
+            'user' => new UserResource($user, 'teste'),
             'token' => $token,
         ];
     }
 
     public function storeImage($image, $path)
     {
+
         $folderPath = "/{$path}/"; //path location
         $image_parts = explode(";base64,", $image);
         $image_type_aux = explode("image/", $image_parts[0]);
@@ -59,6 +60,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         $this->authorize('view', $user);
+        $user->base64 = true;
         return new UserResource($user);
         // try {
         //     $user = User::findOrFail($id);
