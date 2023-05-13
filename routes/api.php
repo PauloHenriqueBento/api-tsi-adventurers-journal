@@ -1,12 +1,13 @@
 <?php
 
 use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\ModalidadeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\PaisController;
+use App\Http\Controllers\Api\EstadoController;
+use App\Http\Controllers\Api\CidadeController;
 
 // Route::apiResource('/users', UserController::class);
 // Rota acima é a junção das rotas abaixo
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::apiResource('/pais', PaisController::class);
+Route::apiResource('Api/estado', EstadoController::class);
+Route::apiResource('Api/cidade', CidadeController::class);
 
 Route::apiResource('/modalidades', ModalidadeController::class);
 
