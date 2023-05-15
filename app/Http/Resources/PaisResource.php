@@ -17,6 +17,7 @@ class PaisResource extends JsonResource
         return [
             'identify' => $this->id,
             'nome' => strtoupper($this->nome),
+            'estados' => $this->Estado,
         ];
     }
 }

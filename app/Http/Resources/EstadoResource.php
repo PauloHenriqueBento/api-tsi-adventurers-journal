@@ -20,7 +20,8 @@ class EstadoResource extends JsonResource
             'id' => $this->id,
             'nome' => $this->nome,
             'uf' => $this->uf,
-            'pais_id' => $this->Pais
+            'pais' => $this->Pais,
+            'cidades' => $this->Cidade,
         ];
     }
 }

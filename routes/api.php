@@ -11,8 +11,8 @@ use App\Http\Controllers\Api\CidadeController;
 
 
 Route::apiResource('/pais', PaisController::class);
-Route::apiResource('Api/estado', EstadoController::class);
-Route::apiResource('Api/cidade', CidadeController::class);
+Route::apiResource('/estado', EstadoController::class);
+Route::apiResource('/cidade', CidadeController::class);
 
 Route::apiResource('/modalidades', ModalidadeController::class);
 
@@ -29,8 +29,6 @@ Route::get('/', function () {
 //         ]);
 //     });
 // });
-
-Route::post('/auth/register', [AuthController::class, 'createUser']);
 
 Route::post('/login', [AuthController::class, 'loginUser']);
 Route::post('/users', [UserController::class, 'store']);
