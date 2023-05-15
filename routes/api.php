@@ -9,10 +9,6 @@ use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\EstadoController;
 use App\Http\Controllers\Api\CidadeController;
 
-// Route::apiResource('/users', UserController::class);
-// Rota acima é a junção das rotas abaixo
-
-
 
 Route::apiResource('/pais', PaisController::class);
 Route::apiResource('Api/estado', EstadoController::class);
