@@ -21,8 +21,22 @@ class StoreDestinoRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            "nome" => "required"
+        $rules = [
+            "nome" => "required|min:3|max:255",
+            "descricao" => "nullable|string",
+            "CEP" => "nullable|string"
         ];
+
+        if($this->method() == "PATCH" || $this->method() == "PUT") {
+            $rules = [
+                "nome" => "sometimes|min:3|max:255",
+                "descricao" => "nullable|string",
+                "CEP" => "nullable|string"
+            ];
+        }
+
+        return $rules;
     }
+
+    
 }
