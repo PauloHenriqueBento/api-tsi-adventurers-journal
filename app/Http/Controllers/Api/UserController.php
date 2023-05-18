@@ -33,6 +33,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::all();
+        $users->each(function ($user) {
+            $user->profile_photo_path = $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : null;
+            $user->profile_banner_path = $user->profile_banner_path ? asset('storage/' . $user->profile_banner_path) : null;
+        });
         return UserResource::collection($users);
     }
 
@@ -66,11 +70,26 @@ class UserController extends Controller
     {
         $data = $request->validated();
         $data['password'] = bcrypt($request->password);
-
-        $data['profile_photo_path'] = $request->profile_photo_path ? $this->storeImage($request->profile_photo_path, 'profile_photos') : null;
-        $data['profile_banner_path'] = $request->profile_banner_path ? $this->storeImage($request->profile_banner_path, 'profile_banner') : null;
         $user = User::create($data);
         $user->modalidades()->attach($request->input('modalidades'));
+
+        if ($request->hasFile('profile_photo_path')) {
+            $profilePhoto = $request->file('profile_photo_path');
+            $profilePhotoPath = $profilePhoto->storePublicly('profile_photos', 'public');
+            $user->profile_photo_path = $profilePhotoPath;
+            $user->save();
+        }
+
+        // Salvar banner do perfil, se fornecido
+        if ($request->hasFile('profile_banner_path')) {
+            $profileBanner = $request->file('profile_banner_path');
+            $profileBannerPath = $profileBanner->storePublicly('banner_photos', 'public');
+            $user->profile_banner_path = $profileBannerPath;
+            $user->save();
+        }
+        /* $data['profile_photo_path'] = $request->profile_photo_path ? $this->storeImage($request->profile_photo_path, 'profile_photos') : null;
+        $data['profile_banner_path'] = $request->profile_banner_path ? $this->storeImage($request->profile_banner_path, 'profile_banner') : null;*/
+
 
         $token = $user->createToken('api_token')->plainTextToken;
         return [

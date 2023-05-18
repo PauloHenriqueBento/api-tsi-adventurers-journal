@@ -40,8 +40,10 @@ class StoreUpdateUserRequest extends FormRequest
             ],
             'data_nascimento' => 'nullable|date_format:Y-m-d',
             'id_cidade' => 'nullable|integer',
-            'profile_photo_path' => 'nullable|string|max:4194304', //4 MB em bytes
-            'profile_banner_path' => 'nullable|string|max:4194304', //4 MB em bytes
+            /* 'profile_photo_path' => 'nullable|string|max:4194304', //4 MB em bytes
+            'profile_banner_path' => 'nullable|string|max:4194304', //4 MB em bytes*/
+            'profile_photo_path' => 'nullable|file|mimes:jpeg,jpg,png|max:4096',
+            'profile_banner_path' => 'nullable|file|mimes:jpeg,jpg,png|max:4096',
             'modalidade' => 'nullable|array|min:1',
             'telefone' => 'nullable|string',
             'facebook_url' => 'nullable|url',
@@ -68,8 +70,10 @@ class StoreUpdateUserRequest extends FormRequest
                 ],
                 'data_nascimento' => 'nullable|date_format:Y-m-d',
                 'id_cidade' => 'nullable|integer',
-                'profile_photo_path' => 'nullable|image|max:2048',
-                'profile_banner_path' => 'nullable|image|max:2048',
+                /* 'profile_photo_path' => 'nullable|image|max:2048',
+                'profile_banner_path' => 'nullable|image|max:2048',*/
+                'profile_photo_path' => 'nullable|file|mimes:jpeg,jpg,png|max:4096', //4 MB em bytes
+                'profile_banner_path' => 'nullable|file|mimes:jpeg,jpg,png|max:4096',
                 'modalidade' => 'nullable|array|min:1',
                 'telefone' => 'nullable|string',
                 'facebook_url' => 'nullable|url',
