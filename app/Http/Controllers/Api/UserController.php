@@ -15,6 +15,21 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     //retorna todos usuarios (Debug)
+    /**
+     * @OA\Get(
+     *     path="/user",
+     *     tags={"Users"},
+     *     summary="Get all users",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/UserSchema")
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $users = User::all();
@@ -25,6 +40,28 @@ class UserController extends Controller
     //Obs.: Ao usar Postman ou outra plataforma de testar api. Configurar o header
     //Accept: application/json
     //Content-Type: application/json
+
+
+
+    /**
+     * @OA\Post(
+     *     path="/user",
+     *     tags={"Users"},
+     *     summary="Create a new user",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UserRequestBody")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user", ref="#/components/schemas/UserSchema"),
+     *             @OA\Property(property="token", type="string")
+     *         )
+     *     )
+     * )
+     */
     public function store(StoreUpdateUserRequest $request)
     {
         $data = $request->validated();
@@ -55,7 +92,19 @@ class UserController extends Controller
         return $filename;
     }
 
-    //Retorna apenas um user
+    /**
+     * @OA\Get(
+     *     path="/user",
+     *     tags={"Users"},
+     *     summary="Get the authenticated user",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(ref="#/components/schemas/UserSchema")
+     *     )
+     * )
+     */
     public function show()
     {
         $user = Auth::user();
@@ -80,6 +129,23 @@ class UserController extends Controller
     }
 
     //Atualiza user
+    /**
+     * @OA\Put(
+     *     path="/user",
+     *     tags={"Users"},
+     *     summary="Update the authenticated user",
+     *     security={{"bearerAuth": {}}},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/UserRequestBody")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Success",
+     *         @OA\JsonContent(ref="#/components/schemas/UserSchema")
+     *     )
+     * )
+     */
     public function update(StoreUpdateUserRequest $request)
     {
         $user = $request->user(); // pega o usuário autenticado

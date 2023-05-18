@@ -1,14 +1,32 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cidade;
 use App\Http\Resources\CidadeResource;
 use App\Http\Requests\StoreCidadeRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class CidadeController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/cidade",
+     *     summary="Obter lista de cidades",
+     *     tags={"Cidades"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="mensagem", type="string", example="Lista de cidades retornada"),
+     *             @OA\Property(property="cidades", type="array", @OA\Items(ref="#/components/schemas/CidadeSchema"))
+     *         )
+     *     )
+     * )
+     */
     public function index()
     {
         $cidades = Cidade::all();
@@ -20,6 +38,26 @@ class CidadeController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Post(
+     *     path="/cidade",
+     *     summary="Criar uma nova cidade",
+     *     tags={"Cidades"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/CidadeRequestBody")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="mensagem", type="string", example="Cidade criada"),
+     *             @OA\Property(property="cidade", ref="#/components/schemas/CidadeSchema")
+     *         )
+     *     )
+     * )
+     */
     public function store(StoreCidadeRequest $request)
     {
         $cidade = new Cidade();
@@ -36,12 +74,35 @@ class CidadeController extends Controller
         ], 200);
     }
 
+    /**
+     * @OA\Get(
+     *     path="/cidade/{id}",
+     *     summary="Obter os detalhes de uma cidade",
+     *     tags={"Cidades"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da cidade",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/CidadeSchema")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Registro não encontrado"
+     *     )
+     * )
+     */
     public function show(string $id)
     {
-        try{
+        try {
             $cidade = Cidade::findOrFail($id);
             return new CidadeResource($cidade);
-        }catch(ModelNotFoundException $e){
+        } catch (ModelNotFoundException $e) {
             return response([
                 'Status' => 'Error',
                 'error' => '404'
@@ -49,6 +110,36 @@ class CidadeController extends Controller
         }
     }
 
+    /**
+     * @OA\Put(
+     *     path="/cidade/{id}",
+     *     summary="Atualizar uma cidade",
+     *     tags={"Cidades"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da cidade",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(ref="#/components/schemas/CidadeRequestBody")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="mensagem", type="string", example="Cidade atualizada")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Registro não encontrado"
+     *     )
+     * )
+     */
     public function update(StoreCidadeRequest $request, string $id)
     {
         $cidade = Cidade::findOrfail($id);
@@ -63,7 +154,32 @@ class CidadeController extends Controller
         ], 200);
     }
 
-
+    /**
+     * @OA\Delete(
+     *     path="/cidade/{id}",
+     *     summary="Deletar uma cidade",
+     *     tags={"Cidades"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID da cidade",
+     *         @OA\Schema(type="string")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example=200),
+     *             @OA\Property(property="mensagem", type="string", example="Deletado com sucesso")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Registro não encontrado"
+     *     )
+     * )
+     */
     public function destroy(string $id)
     {
         $cidade = Cidade::find($id);

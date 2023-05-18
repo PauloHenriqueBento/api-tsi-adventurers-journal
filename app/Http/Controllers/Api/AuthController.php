@@ -15,6 +15,28 @@ class AuthController extends Controller
      * @param Request $request
      * @return User
      */
+
+    /**
+     * @OA\Post(
+     *     path="/login",
+     *     summary="Autenticar usuário",
+     *     operationId="loginUser",
+     *     tags={"Autenticação"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(property="email", type="string", format="email", example="john@example.com"),
+     *                 @OA\Property(property="password", type="string", example="password123")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response="200", description="Sucesso"),
+     *     @OA\Response(response="401", description="Erro de validação ou credenciais inválidas"),
+     *     @OA\Response(response="500", description="Erro interno do servidor")
+     * )
+     */
     public function loginUser(Request $request)
     {
         try {
@@ -55,6 +77,17 @@ class AuthController extends Controller
         }
     }
 
+    /**
+ * @OA\Post(
+ *     path="/logout",
+ *     summary="Desconectar usuário",
+ *     operationId="logout",
+ *     tags={"Autenticação"},
+ *     security={{"bearerAuth":{}}},
+ *     @OA\Response(response="200", description="Sucesso"),
+ *     @OA\Response(response="401", description="Não autorizado")
+ * )
+ */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();

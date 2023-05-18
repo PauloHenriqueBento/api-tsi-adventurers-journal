@@ -12,7 +12,21 @@ use Illuminate\Http\Request;
 class ModalidadeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * @OA\Get(
+     *     path="/modalidade",
+     *     summary="Lista de modalidades",
+     *     description="Retorna a lista de modalidades.",
+     *     operationId="index",
+     *     tags={"Modalidades"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/ModalidadeSchema")
+     *         )
+     *     )
+     * )
      */
     public function index()
     {
@@ -21,7 +35,31 @@ class ModalidadeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *     path="/modalidade",
+     *     summary="Criar modalidade",
+     *     description="Cria uma nova modalidade.",
+     *     operationId="store",
+     *     tags={"Modalidades"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Dados da modalidade",
+     *         @OA\JsonContent(ref="#/components/schemas/ModalidadeRequestBody")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/ModalidadeSchema")
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Erro de validação",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The given data was invalid."),
+     *             @OA\Property(property="errors", type="object", example={"nome": {"O campo nome é obrigatório."}})
+     *         )
+     *     )
+     * )
      */
     public function store(StoreUpdateModalidadeRequest $request)
     {
@@ -32,14 +70,40 @@ class ModalidadeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *     path="/modalidade/{id}",
+     *     summary="Detalhes da modalidade",
+     *     description="Retorna os detalhes de uma modalidade.",
+     *     operationId="show",
+     *     tags={"Modalidades"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID da modalidade",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/ModalidadeSchema")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Modalidade não encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Status", type="string", example="Error"),
+     *             @OA\Property(property="error", type="string", example="404")
+     *         )
+     *     )
+     * )
      */
     public function show(string $id)
     {
-        try{
+        try {
             $modalidades = Modalidade::findOrFail($id);
             return new ModalidadeResource($modalidades);
-        }catch(ModelNotFoundException){
+        } catch (ModelNotFoundException) {
             return response([
                 'Status' => 'Error',
                 'error' => '404'
@@ -48,7 +112,38 @@ class ModalidadeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Put(
+     *     path="/modalidade/{id}",
+     *     summary="Atualizar modalidade",
+     *     description="Atualiza uma modalidade existente.",
+     *     operationId="update",
+     *     tags={"Modalidades"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID da modalidade",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         description="Dados da modalidade",
+     *         @OA\JsonContent(ref="#/components/schemas/ModalidadeRequestBody")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Sucesso",
+     *         @OA\JsonContent(ref="#/components/schemas/ModalidadeSchema")
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Modalidade não encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Status", type="string", example="Error"),
+     *             @OA\Property(property="error", type="string", example="404")
+     *         )
+     *     )
+     * )
      */
     public function update(StoreUpdateModalidadeRequest $request, string $id)
     {
@@ -59,7 +154,32 @@ class ModalidadeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * @OA\Delete(
+     *     path="/modalidade/{id}",
+     *     summary="Deletar modalidade",
+     *     description="Deleta uma modalidade existente.",
+     *     operationId="destroy",
+     *     tags={"Modalidades"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID da modalidade",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="Sucesso"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="Modalidade não encontrada",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="Status", type="string", example="Error"),
+     *             @OA\Property(property="error", type="string", example="404")
+     *         )
+     *     )
+     * )
      */
     public function destroy(string $id)
     {
