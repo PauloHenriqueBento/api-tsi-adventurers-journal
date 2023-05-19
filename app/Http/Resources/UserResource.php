@@ -21,7 +21,8 @@ class UserResource extends JsonResource
         $bannerUrl = asset('storage/' . $this->profile_banner_path);
         return [
             'identify' => $this->id,
-            'name'  => strtoupper($this->name),
+            'name'  => $this->name,
+            // 'name'  => strtoupper($this->name),
             'data_nascimento' => $this->data_nascimento,
             'email' => $this->email,
             'cidade' => $this->id_cidade,

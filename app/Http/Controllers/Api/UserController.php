@@ -11,6 +11,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
@@ -160,6 +161,16 @@ class UserController extends Controller
         $user = $request->user(); // pega o usuário autenticado
         $data = $request->all();
 
+        if ($request->has('confirmPassword')) {
+            $user_password = $user->password();
+            $user_confirm_password = $request->confirmPassword;
+            if (!Hash::check($user_confirm_password, $user_password)) {
+                return response()->json([
+                    'error' => 'Senha incorreta',
+                ], 401);
+            }
+        }
+
         if ($request->has('password')) {
             $data['password'] = bcrypt($request->password);
         }
@@ -186,10 +197,10 @@ class UserController extends Controller
             $profileBanner = $request->file('profile_banner_path');
 
             // Salva a nova imagem de perfil no diretório de armazenamento
-            $filename = $profileBanner->storePublicly('banner_photos', 'public');
+            $filename = $profileBanner->storePublicly('profile_banner', 'public');
 
             // Remove a imagem antiga, se existir
-            if ($user->profile_photo_path) {
+            if ($user->profile_banner_path) {
                 Storage::disk('public')->delete($user->profile_banner_path);
             }
 
