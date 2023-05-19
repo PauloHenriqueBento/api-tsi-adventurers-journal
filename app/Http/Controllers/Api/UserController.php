@@ -181,6 +181,22 @@ class UserController extends Controller
             $data['profile_photo_path'] = $filename;
         }
 
+        if ($request->hasFile('profile_banner_path')) {
+            // Obtém o arquivo enviado
+            $profileBanner = $request->file('profile_banner_path');
+
+            // Salva a nova imagem de perfil no diretório de armazenamento
+            $filename = $profileBanner->storePublicly('banner_photos', 'public');
+
+            // Remove a imagem antiga, se existir
+            if ($user->profile_photo_path) {
+                Storage::disk('public')->delete($user->profile_banner_path);
+            }
+
+            // Atualiza o caminho da nova imagem de perfil no modelo do usuário
+            $data['profile_banner_path'] = $filename;
+        }
+
         $user->update($data);
 
         if ($request->has('modalidades')) {
