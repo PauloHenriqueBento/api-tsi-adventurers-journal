@@ -36,7 +36,7 @@ Route::get('/users', [UserController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
-    Route::patch('/user/', [UserController::class, 'update']);
+    Route::post('/user/', [UserController::class, 'update']);
     Route::get('/user', [UserController::class, 'show']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });

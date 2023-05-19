@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUpdateUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Auth\Access\AuthorizationException;
@@ -98,19 +99,6 @@ class UserController extends Controller
         ];
     }
 
-    public function storeImage($image, $path)
-    {
-
-        $folderPath = "/{$path}/"; //path location
-        $image_parts = explode(";base64,", $image);
-        $image_type_aux = explode("image/", $image_parts[0]);
-        $extension = $image_type_aux[1];
-        $decodedImage = base64_decode($image_parts[1]);
-        $filename = uniqid() . '.' . $extension;
-        Storage::put($folderPath . $filename, $decodedImage);
-        return $filename;
-    }
-
     /**
      * @OA\Get(
      *     path="/user",
@@ -129,6 +117,8 @@ class UserController extends Controller
         $user = Auth::user();
         $this->authorize('view', $user);
         $user->base64 = true;
+        $user->profile_photo_path = $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : null;
+        $user->profile_banner_path = $user->profile_banner_path ? asset('storage/' . $user->profile_banner_path) : null;
         return new UserResource($user);
         // try {
         //     $user = User::findOrFail($id);
@@ -165,14 +155,30 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function update(StoreUpdateUserRequest $request)
+    public function update(UpdateUserRequest $request)
     {
         $user = $request->user(); // pega o usuário autenticado
-
         $data = $request->all();
 
         if ($request->has('password')) {
             $data['password'] = bcrypt($request->password);
+        }
+
+        // Verifica se uma nova imagem de perfil foi enviada
+        if ($request->hasFile('profile_photo_path')) {
+            // Obtém o arquivo enviado
+            $profilePhoto = $request->file('profile_photo_path');
+
+            // Salva a nova imagem de perfil no diretório de armazenamento
+            $filename = $profilePhoto->storePublicly('profile_photos', 'public');
+
+            // Remove a imagem antiga, se existir
+            if ($user->profile_photo_path) {
+                Storage::disk('public')->delete($user->profile_photo_path);
+            }
+
+            // Atualiza o caminho da nova imagem de perfil no modelo do usuário
+            $data['profile_photo_path'] = $filename;
         }
 
         $user->update($data);

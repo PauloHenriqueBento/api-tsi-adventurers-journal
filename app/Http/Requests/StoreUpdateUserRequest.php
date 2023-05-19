@@ -54,7 +54,7 @@ class StoreUpdateUserRequest extends FormRequest
 
         //Valida se é atualização, se for, usuario não precisa remandar alguns campos
 
-        if ($this->method() == "PATCH" || $this->method() == "PUT") {
+        if ($this->isMethod('PATCH') || $this->isMethod('PUT')) {
             $rules = [
                 'name' => 'sometimes|min:3|max:255',
                 'email' => [
