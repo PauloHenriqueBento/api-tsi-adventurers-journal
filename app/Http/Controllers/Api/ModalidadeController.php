@@ -31,6 +31,9 @@ class ModalidadeController extends Controller
     public function index()
     {
         $modalidades = Modalidade::all();
+        $modalidades->each(function ($modalidade) {
+            $modalidade->photo_path = $modalidade->photo_path ? asset('storage/' . $modalidade->photo_path) : null;
+        });
         return ModalidadeResource::collection($modalidades);
     }
 
@@ -65,6 +68,13 @@ class ModalidadeController extends Controller
     {
         $data = $request->validated();
         $modalidades = Modalidade::create($data);
+
+        if ($request->hasFile('photo_path')) {
+            $photo = $request->file('photo_path');
+            $photo_path = $photo->storePublicly('modalidade_photos', 'public');
+            $modalidades->photo_path = $photo_path;
+            $modalidades->save();
+        }
 
         return new ModalidadeResource($modalidades);
     }
@@ -102,6 +112,8 @@ class ModalidadeController extends Controller
     {
         try {
             $modalidades = Modalidade::findOrFail($id);
+            $modalidades->photo_path = $modalidades->photo_path ? asset('storage/' . $modalidades->photo_path) : null;
+
             return new ModalidadeResource($modalidades);
         } catch (ModelNotFoundException) {
             return response([

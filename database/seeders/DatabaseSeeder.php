@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use ModalidadeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,5 +22,6 @@ class DatabaseSeeder extends Seeder
         $this->call(PaisesSeeder::class);
         $this->call(EstadosSeeder::class);
         $this->call(CidadeSeeder::class);
+        $this->call(ModalidadeSeeder::class);
     }
 }
