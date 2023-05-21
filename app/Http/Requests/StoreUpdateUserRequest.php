@@ -51,40 +51,7 @@ class StoreUpdateUserRequest extends FormRequest
             'twitter_url' => 'nullable|url',
             'bio' => 'nullable|string'
         ];
-
-        //Valida se é atualização, se for, usuario não precisa remandar alguns campos
-
-        if ($this->isMethod('PATCH') || $this->isMethod('PUT')) {
-            $rules = [
-                'name' => 'sometimes|min:3|max:255',
-                'email' => [
-                    'sometimes',
-                    'email',
-                    'max:255',
-                    "unique:users,email,{$this->id},id"
-                ],
-                'password' => [
-                    'nullable',
-                    'min:6',
-                    'max:100',
-                ],
-                'data_nascimento' => 'nullable|date_format:Y-m-d',
-                'id_cidade' => 'nullable|integer',
-                /* 'profile_photo_path' => 'nullable|image|max:2048',
-                'profile_banner_path' => 'nullable|image|max:2048',*/
-                'profile_photo_path' => 'nullable|file|mimes:jpeg,jpg,png|max:4096', //4 MB em bytes
-                'profile_banner_path' => 'nullable|file|mimes:jpeg,jpg,png|max:4096',
-                'modalidade' => 'nullable|array|min:1',
-                'telefone' => 'nullable|string',
-                'facebook_url' => 'nullable|url',
-                'instagram_url' => 'nullable|url',
-                'twitter_url' => 'nullable|url',
-                'bio' => 'nullable|string',
-            ];
-        }
-
-
-
+        
         return $rules;
     }
 

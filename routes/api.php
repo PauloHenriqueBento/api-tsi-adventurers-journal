@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AtividadeController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ModalidadeController;
 use Illuminate\Http\Request;
@@ -39,4 +40,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user/', [UserController::class, 'update']);
     Route::get('/user', [UserController::class, 'show']);
     Route::post('/logout', [AuthController::class, 'logout']);
+
+    // Rotas para a entidade "Atividade"
+    // Application/Json
+    Route::get('/atividades', [AtividadeController::class, 'index']);
+    Route::get('/atividades/{atividade}', [AtividadeController::class, 'show']);
+    Route::post('/atividades', [AtividadeController::class, 'store']);
+    Route::put('/atividades/{atividade}', [AtividadeController::class, 'update']);
 });

@@ -70,8 +70,14 @@ class UserController extends Controller
      */
     public function store(StoreUpdateUserRequest $request)
     {
+        // Verificar se o usuário está criando um Guia
+        $isGuia = $request->input('isGuia') === 'true';
+
         $data = $request->validated();
         $data['password'] = bcrypt($request->password);
+        $data['isGuia'] = $isGuia;
+        
+         // Criar o usuário
         $user = User::create($data);
         $user->modalidades()->attach($request->input('modalidades'));
 
