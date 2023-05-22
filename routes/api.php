@@ -1,6 +1,5 @@
 <?php
 
-
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\UserController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\EstadoController;
 use App\Http\Controllers\Api\CidadeController;
 use App\Http\Controllers\Api\DestinoController;
+use App\Http\Controllers\Api\AssinaturaController;
 
 Route::apiResource('/users', UserController::class);
 // Rota acima é a junção das rotas abaixo
@@ -23,6 +23,12 @@ Route::apiResource('Api/estado', EstadoController::class);
 Route::apiResource('Api/cidade', CidadeController::class);
 
 Route::apiResource('Api/destino', DestinoController::class);
+
+Route::apiResource('Api/assinatura', AssinaturaController::class);
+
+
+
+
 Route::get('/', function(){
     return response()->json([
         'sucess' => true
