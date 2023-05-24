@@ -9,6 +9,8 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\PaisController;
 use App\Http\Controllers\Api\EstadoController;
 use App\Http\Controllers\Api\CidadeController;
+use App\Http\Controllers\Api\DestinoController;
+use App\Http\Controllers\Api\AssinaturaController;
 
 
 Route::apiResource('/pais', PaisController::class);
@@ -16,6 +18,12 @@ Route::apiResource('/estado', EstadoController::class);
 Route::apiResource('/cidade', CidadeController::class);
 
 Route::apiResource('/modalidades', ModalidadeController::class);
+Route::apiResource('Api/destino', DestinoController::class);
+
+Route::apiResource('Api/assinatura', AssinaturaController::class);
+
+
+
 
 Route::get('/', function () {
     return response()->json([
