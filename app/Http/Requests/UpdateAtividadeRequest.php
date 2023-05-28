@@ -22,8 +22,12 @@ class UpdateAtividadeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'comentario' => 'nullable|string',
-            'nota' => 'nullable|integer',
+            'preco' => 'nullable|numeric',
+            'idCidade' => 'nullable|exists:cidade,id',
+            'Titulo' => 'nullable|string',
+            'Descricao' => 'nullable|string',
+            'DataTime' => 'nullable|date',
+            'IdadeMinima' => 'nullable|integer',
         ];
     }
 }

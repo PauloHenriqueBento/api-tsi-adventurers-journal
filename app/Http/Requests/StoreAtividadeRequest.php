@@ -22,12 +22,12 @@ class StoreAtividadeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'idGuia' => 'required',
-            'idModalidade' => 'required',
-            'idCidade' => 'required',
-            'nota' => 'nullable',
-            'comentario' => 'nullable',
-            'data' => 'required|date',
+            'preco' => 'required|numeric',
+            'idCidade' => 'required|exists:cidade,id',
+            'Titulo' => 'required|string',
+            'Descricao' => 'required|string',
+            'DataTime' => 'required|date',
+            'IdadeMinima' => 'nullable|integer',
         ];
     }
 }

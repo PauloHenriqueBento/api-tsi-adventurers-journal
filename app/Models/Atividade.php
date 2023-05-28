@@ -10,28 +10,18 @@ class Atividade extends Model
     use HasFactory;
     
     protected $fillable = [
-        'idViajante',
-        'idGuia',
-        'idModalidade',
+        'IdGuia',
+        'preco',
         'idCidade',
-        'nota',
-        'comentario',
-        'data',
+        'Titulo',
+        'Descricao',
+        'DataTime',
+        'IdadeMinima'
     ];
-
-    public function viajante()
-    {
-        return $this->belongsTo(User::class, 'idViajante');
-    }
 
     public function guia()
     {
-        return $this->belongsTo(User::class, 'idGuia');
-    }
-
-    public function modalidade()
-    {
-        return $this->belongsTo(Modalidade::class, 'idModalidade');
+        return $this->belongsTo(User::class, 'IdGuia');
     }
 
     public function cidade()

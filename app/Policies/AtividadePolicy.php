@@ -24,6 +24,16 @@ class AtividadePolicy
      */
     public function update(User $user, Atividade $atividade): bool
     {
-        return $user->id === $atividade->idViajante;
+        return $user->id === $atividade->IdGuia;
+    }
+
+    public function create(User $user): bool
+    {
+        return $user->isGuia;
+    }
+
+    public function delete(User $user, Atividade $atividade): bool
+    {
+        return $user->id === $atividade->IdGuia;
     }
 }

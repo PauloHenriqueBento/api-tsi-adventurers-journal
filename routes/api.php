@@ -52,7 +52,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Rotas para a entidade "Atividade"
     // Application/Json
     Route::get('/atividades', [AtividadeController::class, 'index']);
+    Route::get('/atividades/user', [AtividadeController::class, 'listByUser']);
     Route::get('/atividades/{atividade}', [AtividadeController::class, 'show']);
     Route::post('/atividades', [AtividadeController::class, 'store']);
     Route::put('/atividades/{atividade}', [AtividadeController::class, 'update']);
+    Route::delete('/atividades/{atividade}', [AtividadeController::class, 'delete']);
 });

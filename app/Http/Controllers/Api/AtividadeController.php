@@ -15,12 +15,10 @@ class AtividadeController extends Controller
 {
     public function index()
     {
-        $usuarioId = Auth::id();
-
-        $atividades = Atividade::where('idViajante', $usuarioId)->get();
+        $atividades = Atividade::all();
 
         if ($atividades->isEmpty()) {
-            return response()->json(['message' => 'Sem histórico de atividades'], 200);
+            return response()->json(['message' => 'Sem atividades'], 200);
         }
 
         return AtividadeResource::collection($atividades);
@@ -28,27 +26,25 @@ class AtividadeController extends Controller
 
     public function store(StoreAtividadeRequest $request)
     {
+        $this->authorize('create', Atividade::class);
+
         $usuarioId = Auth::id();
-        $idGuia = User::where('isGuia', true)->value('id');
 
         $atividade = Atividade::create([
-            'idViajante' => $usuarioId,
-            'idGuia' => $idGuia,
+            'IdGuia' => $usuarioId,
+            'preco' => $request->preco,
             'idCidade' => $request->idCidade,
-            'idModalidade' => $request->idModalidade,
-            'nota' => $request->nota,
-            'comentario' => $request->comentario,
-            'data' => $request->data,
+            'Titulo' => $request->Titulo,
+            'Descricao' => $request->Descricao,
+            'DataTime' => $request->DataTime,
+            'IdadeMinima' => $request->IdadeMinima,
         ]);
 
         return new AtividadeResource($atividade);
     }
 
-
     public function show(Atividade $atividade)
     {
-        $this->authorize('view', $atividade);
-
         return new AtividadeResource($atividade);
     }
 
@@ -56,8 +52,40 @@ class AtividadeController extends Controller
     {
         $this->authorize('update', $atividade);
 
-        $atividade->update($request->only('comentario', 'nota'));
+        $data = $request->validated();
 
-        return response()->json($atividade);
+        $atividade->update($data);
+
+        return new AtividadeResource($atividade);
+    }
+
+    public function delete(Atividade $atividade)
+    {
+        $this->authorize('delete', $atividade);
+
+        try {
+            // Remova qualquer referência à atividade em outras tabelas aqui
+            // ...
+
+            $atividade->delete();
+
+            return response()->json(['message' => 'Atividade excluída com sucesso']);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao excluir a atividade'], 500);
+        }
+    }
+
+    // Lista as atividades criadas pelo usuario (Guia)
+    public function listByUser()
+    {
+        $userId = Auth::id();
+
+        $atividades = Atividade::where('IdGuia', $userId)->get();
+
+        if ($atividades->isEmpty()) {
+            return response()->json(['message' => 'Nenhuma atividade encontrada'], 200);
+        }
+
+        return AtividadeResource::collection($atividades);
     }
 }
