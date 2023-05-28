@@ -16,9 +16,9 @@ class ModalidadeResource extends JsonResource
     {
         return [
             'identify' => $this->id,
-            'Nome' => $this->nome,
-            'Descrição' => $this->descricao,
-            'Foto'  => $this->photo_path
+            'nome' => $this->nome,
+            'descricao' => $this->descricao,
+            'foto'  => $this->photo_path
         ];
     }
 }
