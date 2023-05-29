@@ -28,4 +28,9 @@ class Atividade extends Model
     {
         return $this->belongsTo(Cidade::class, 'idCidade');
     }
+
+    public function modalidades()
+    {
+        return $this->belongsToMany(Modalidade::class, 'atividade_modalidade');
+    }
 }

@@ -19,4 +19,9 @@ class Modalidade extends Model
     {
         return $this->belongsToMany(users::class, 'user_modalidade', 'modalidades_id', 'users_id');
     }
+
+    public function atividades()
+    {
+        return $this->belongsToMany(Atividade::class, 'atividade_modalidade');
+    }
 }

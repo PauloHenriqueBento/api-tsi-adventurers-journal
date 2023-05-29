@@ -28,6 +28,7 @@ class StoreAtividadeRequest extends FormRequest
             'Descricao' => 'required|string',
             'DataTime' => 'required|date',
             'IdadeMinima' => 'nullable|integer',
+            'modalidade' => 'nullable|array|min:1',
         ];
     }
 }

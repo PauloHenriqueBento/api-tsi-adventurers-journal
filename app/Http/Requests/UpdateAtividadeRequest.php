@@ -28,6 +28,7 @@ class UpdateAtividadeRequest extends FormRequest
             'Descricao' => 'nullable|string',
             'DataTime' => 'nullable|date',
             'IdadeMinima' => 'nullable|integer',
+            'modalidade' => 'nullable|array|min:1',
         ];
     }
 }

@@ -29,7 +29,8 @@ class AtividadeResource extends JsonResource
             'Titulo' => $this->Titulo,
             'Descrição' => $this->Descricao,
             'Data e Hora' => $this->DataTime,
-            'Idade minima' => $this->IdadeMinima
+            'Idade minima' => $this->IdadeMinima,
+            'modalidade' => ModalidadeResource::collection($this->modalidades),
         ];
     }
 }

@@ -40,6 +40,9 @@ class AtividadeController extends Controller
             'IdadeMinima' => $request->IdadeMinima,
         ]);
 
+        $modalidades = $request->input('Modalidades');
+        $atividade->modalidades()->attach($modalidades);
+
         return new AtividadeResource($atividade);
     }
 
@@ -55,6 +58,11 @@ class AtividadeController extends Controller
         $data = $request->validated();
 
         $atividade->update($data);
+
+        if ($request->has('Modalidades')) {
+            $modalidades = $request->input('Modalidades');
+            $atividade->modalidades()->sync($modalidades);
+        }
 
         return new AtividadeResource($atividade);
     }
