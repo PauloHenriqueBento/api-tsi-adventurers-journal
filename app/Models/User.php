@@ -57,4 +57,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Modalidade::class, 'user_modalidade', 'users_id', 'modalidades_id');
     }
+
+    public function cidade()
+    {
+        return $this->belongsTo(User::class, 'id_cidade','id');
+    }
+
+    public function itensDoCarrinho()
+    {
+        return $this->hasMany(ItensDoCarrinho::class,  'idViajante','id');
+    }
 }

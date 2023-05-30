@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Atividade extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'IdGuia',
         'preco',
@@ -27,5 +27,11 @@ class Atividade extends Model
     public function cidade()
     {
         return $this->belongsTo(Cidade::class, 'idCidade');
+    }
+
+    public function itensDoCarrinho()
+    {
+        //Tirar duvida se é belongsTo ou belongsToMany
+        return $this->belongsTo(ItensDoCarrinho::class,  'idAtividade','id');
     }
 }

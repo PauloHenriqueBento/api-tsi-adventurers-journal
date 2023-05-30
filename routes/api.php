@@ -11,7 +11,7 @@ use App\Http\Controllers\Api\EstadoController;
 use App\Http\Controllers\Api\CidadeController;
 use App\Http\Controllers\Api\DestinoController;
 use App\Http\Controllers\Api\AssinaturaController;
-
+use App\Http\Controllers\Api\ItensDoCarrinhoController;
 
 Route::apiResource('/pais', PaisController::class);
 Route::apiResource('/estado', EstadoController::class);
@@ -21,6 +21,7 @@ Route::apiResource('/modalidades', ModalidadeController::class);
 Route::apiResource('Api/destino', DestinoController::class);
 
 Route::apiResource('Api/assinatura', AssinaturaController::class);
+Route::apiResource('/carrinho', ItensDoCarrinhoController::class);
 
 
 
@@ -45,7 +46,8 @@ Route::get('/users', [UserController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
-    Route::post('/user/', [UserController::class, 'update']);
+    //Route::post('/user/', [UserController::class, 'update']);
+    Route::post('/user', [UserController::class, 'update']);
     Route::get('/user', [UserController::class, 'show']);
     Route::post('/logout', [AuthController::class, 'logout']);
 

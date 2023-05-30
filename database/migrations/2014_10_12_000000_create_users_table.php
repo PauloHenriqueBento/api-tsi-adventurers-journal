@@ -17,6 +17,10 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            //$table->unsignedBigInteger('id_cidade');
+            //$table->foreign('id_cidade')
+                            //->references('id')
+                            //->on('cidade');
             $table->rememberToken();
             $table->timestamps();
         });
