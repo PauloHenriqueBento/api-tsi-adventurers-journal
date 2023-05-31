@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AtividadeController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ItensPedidoController;
 use App\Http\Controllers\Api\ModalidadeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -59,4 +60,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/atividades', [AtividadeController::class, 'store']);
     Route::put('/atividades/{atividade}', [AtividadeController::class, 'update']);
     Route::delete('/atividades/{atividade}', [AtividadeController::class, 'delete']);
+
+
+    Route::apiResource('/itensdopedido', ItensPedidoController::class);
 });
