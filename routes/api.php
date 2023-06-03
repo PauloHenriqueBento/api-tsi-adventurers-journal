@@ -43,6 +43,7 @@ Route::get('/', function () {
 
 Route::post('/login', [AuthController::class, 'loginUser']);
 Route::post('/users', [UserController::class, 'store']);
+Route::get('/users/{id}', [UserController::class, 'show']);
 Route::get('/users', [UserController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {

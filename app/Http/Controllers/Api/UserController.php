@@ -76,8 +76,8 @@ class UserController extends Controller
         $data = $request->validated();
         $data['password'] = bcrypt($request->password);
         $data['isGuia'] = $isGuia;
-        
-         // Criar o usuário
+
+        // Criar o usuário
         $user = User::create($data);
         $user->modalidades()->attach($request->input('modalidades'));
 
@@ -119,13 +119,21 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function show()
+    public function show($id)
     {
-        $user = Auth::user();
-        $this->authorize('view', $user);
-        $user->base64 = true;
+        $user = '';
+        if (!$id) {
+            $user = Auth::user();
+            $this->authorize('view', $user);
+        } else {
+            $user = User::find($id);
+            if (!$user)
+                return response()->json(['error' => 'Usuário não encontrado'], 404);
+        }
+
         $user->profile_photo_path = $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : null;
         $user->profile_banner_path = $user->profile_banner_path ? asset('storage/' . $user->profile_banner_path) : null;
+
         return new UserResource($user);
         // try {
         //     $user = User::findOrFail($id);
