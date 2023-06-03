@@ -96,4 +96,43 @@ class AtividadeController extends Controller
 
         return AtividadeResource::collection($atividades);
     }
+
+    public function searchAtividades(Request $request)
+    {
+        // Obter os filtros do request
+        $modalidades = $request->input('modalidades'); // Array de IDs das modalidades selecionadas
+        $cidade = $request->input('cidade'); // ID da cidade selecionada
+        $horario = $request->input('horario'); // Horário a ser filtrado
+
+        // Consulta inicial
+        $query = Atividade::query();
+
+        // Verificar se a cidade foi especificada
+        if ($cidade) {
+            $query->whereHas('cidade', function ($query) use ($cidade) {
+                $query->where('id', $cidade);
+            });
+        }
+
+        // Verificar se as modalidades foram especificadas
+        if ($modalidades && count($modalidades) > 0) {
+            $query->whereHas('modalidades', function ($query) use ($modalidades) {
+                $query->whereIn('id', $modalidades);
+            });
+        }
+
+        // Verificar se o horário foi especificado
+        if ($horario) {
+            $query->where('DataTime', $horario);
+        }
+
+        // Carregar relações
+        $query->with('guia', 'cidade.estado.pais', 'modalidades');
+
+        // Executar a consulta
+        $atividades = $query->get();
+
+        // Retornar os resultados
+        return response()->json($atividades);
+    }
 }

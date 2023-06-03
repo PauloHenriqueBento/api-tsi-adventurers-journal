@@ -36,6 +36,6 @@ class Atividade extends Model
     public function itensDoCarrinho()
     {
         //Tirar duvida se é belongsTo ou belongsToMany
-        return $this->belongsTo(ItensDoCarrinho::class,  'idAtividade','id');
+        return $this->belongsTo(ItensDoCarrinho::class,  'idAtividade', 'id');
     }
 }
