@@ -60,11 +60,11 @@ class User extends Authenticatable
 
     public function cidade()
     {
-        return $this->belongsTo(User::class, 'id_cidade','id');
+        return $this->belongsTo(User::class, 'id_cidade', 'id');
     }
 
     public function itensDoCarrinho()
     {
-        return $this->hasMany(ItensDoCarrinho::class,  'idViajante','id');
+        return $this->hasMany(ItensDoCarrinho::class,  'idViajante', 'id');
     }
 }
