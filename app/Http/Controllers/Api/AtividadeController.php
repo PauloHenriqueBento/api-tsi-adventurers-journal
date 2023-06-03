@@ -103,6 +103,8 @@ class AtividadeController extends Controller
         $modalidades = $request->input('modalidades'); // Array de IDs das modalidades selecionadas
         $cidade = $request->input('cidade'); // ID da cidade selecionada
         $horario = $request->input('horario'); // Horário a ser filtrado
+        $precoMinimo = $request->input('preco_minimo'); // Preço mínimo a ser filtrado
+        $precoMaximo = $request->input('preco_maximo'); // Preço máximo a ser filtrado
 
         // Consulta inicial
         $query = Atividade::query();
@@ -126,6 +128,16 @@ class AtividadeController extends Controller
             $query->where('DataTime', $horario);
         }
 
+        // Verificar se o preço mínimo foi especificado
+        if ($precoMinimo) {
+            $query->where('preco', '>=', $precoMinimo);
+        }
+
+        // Verificar se o preço máximo foi especificado
+        if ($precoMaximo) {
+            $query->where('preco', '<=', $precoMaximo);
+        }
+
         // Carregar relações
         $query->with('guia', 'cidade.estado.pais', 'modalidades');
 
@@ -133,6 +145,6 @@ class AtividadeController extends Controller
         $atividades = $query->get();
 
         // Retornar os resultados
-        return response()->json($atividades);
+        return AtividadeResource::collection($atividades);
     }
 }
