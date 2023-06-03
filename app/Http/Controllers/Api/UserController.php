@@ -119,7 +119,7 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function show($id)
+    public function show($id = '')
     {
         $user = '';
         if (!$id) {
