@@ -101,7 +101,7 @@ class AtividadeController extends Controller
     {
         // Obter os filtros do request
         $modalidades = $request->input('modalidades'); // Array de IDs das modalidades selecionadas
-        $cidade = $request->input('cidade'); // ID da cidade selecionada
+        $cidade = $request->input('cidade'); // Cidade a ser filtrada
         $horario = $request->input('horario'); // Horário a ser filtrado
         $precoMinimo = $request->input('preco_minimo'); // Preço mínimo a ser filtrado
         $precoMaximo = $request->input('preco_maximo'); // Preço máximo a ser filtrado
@@ -112,7 +112,7 @@ class AtividadeController extends Controller
         // Verificar se a cidade foi especificada
         if ($cidade) {
             $query->whereHas('cidade', function ($query) use ($cidade) {
-                $query->where('id', $cidade);
+                $query->where('nome', 'like', '%' . $cidade . '%');
             });
         }
 
