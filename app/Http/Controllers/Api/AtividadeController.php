@@ -145,6 +145,6 @@ class AtividadeController extends Controller
         $atividades = $query->get();
 
         // Retornar os resultados
-        return AtividadeResource::collection($atividades);
+        return response()->json($atividades);
     }
 }
