@@ -105,6 +105,7 @@ class AtividadeController extends Controller
         $horario = $request->input('horario'); // Horário a ser filtrado
         $precoMinimo = $request->input('preco_minimo'); // Preço mínimo a ser filtrado
         $precoMaximo = $request->input('preco_maximo'); // Preço máximo a ser filtrado
+        $idadeMinima = $request->input('idade_minima'); // Idade mínima a ser filtrada
 
         // Consulta inicial
         $query = Atividade::query();
@@ -136,6 +137,11 @@ class AtividadeController extends Controller
         // Verificar se o preço máximo foi especificado
         if ($precoMaximo) {
             $query->where('preco', '<=', $precoMaximo);
+        }
+
+        // Verificar se a idade mínima foi especificada
+        if ($idadeMinima) {
+            $query->where('IdadeMinima', '>=', $idadeMinima);
         }
 
         // Carregar relações
