@@ -110,16 +110,16 @@ class AtividadeController extends Controller
         $atividades = new Atividade;
 
         // Filtrar por modalidades
-        if (!empty($modalidades)) {
-            $atividades->whereHas('modalidades', function ($query) use ($modalidades) {
-                $query->whereIn('modalidades.id', $modalidades);
-            });
-        }
+        // if (!empty($modalidades)) {
+        //     $atividades->whereHas('modalidades', function ($query) use ($modalidades) {
+        //         $query->whereIn('modalidades.id', $modalidades);
+        //     });
+        // }
 
-        // Filtrar por horário
-        if (!empty($horario)) {
-            $atividades = $atividades->where('DataTime', $horario);
-        }
+        // // Filtrar por horário
+        // if (!empty($horario)) {
+        //     $atividades = $atividades->where('DataTime', $horario);
+        // }
 
         // Filtrar por cidade
         if (!empty($cidade)) {

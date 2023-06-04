@@ -24,11 +24,13 @@ class AtividadeResource extends JsonResource
             'cidade' => [
                 'id' => $this->idCidade,
                 'nome' => $this->cidade->nome,
+                'uf' => $this->cidade->estado->uf,
+                'pais' => $this->cidade->estado->pais->nome
             ],
-            'Preço' => $this->preco,
+            'preco' => $this->preco,
             'Titulo' => $this->Titulo,
             'Descrição' => $this->Descricao,
-            'Data e Hora' => $this->DataTime,
+            'Data_e_Hora' => $this->DataTime,
             'Idade minima' => $this->IdadeMinima,
             'modalidade' => ModalidadeResource::collection($this->modalidades),
         ];
