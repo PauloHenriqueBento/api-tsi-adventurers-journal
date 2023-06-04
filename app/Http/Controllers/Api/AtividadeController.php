@@ -99,58 +99,54 @@ class AtividadeController extends Controller
 
     public function searchAtividades(Request $request)
     {
-        // Obter os filtros do request
-        $modalidades = $request->input('modalidades'); // Array de IDs das modalidades selecionadas
-        $cidade = $request->input('cidade'); // Cidade a ser filtrada
-        $horario = $request->input('horario'); // Horário a ser filtrado
-        $precoMinimo = $request->input('preco_minimo'); // Preço mínimo a ser filtrado
-        $precoMaximo = $request->input('preco_maximo'); // Preço máximo a ser filtrado
-        $idadeMinima = $request->input('idade_minima'); // Idade mínima a ser filtrada
+        $modalidades = $request->query('modalidades') ?? '';
+        $modalidades = !empty($modalidades) ? explode(',', $modalidades) : [];
+        $cidade = $request->query('cidade') ?? '';
+        $horario = $request->query('horario') ?? '';
+        $precoMinimo = $request->query('preco_minimo') ?? '';
+        $precoMaximo = $request->query('preco_maximo') ?? '';
+        $idadeMinima = $request->query('idade_minima') ?? '';
 
-        // Consulta inicial
-        $query = Atividade::query();
+        $atividades = new Atividade;
 
-        // Verificar se a cidade foi especificada
-        if ($cidade) {
-            $query->whereHas('cidade', function ($query) use ($cidade) {
+        // Filtrar por modalidades
+        if (!empty($modalidades)) {
+            $atividades->whereHas('modalidades', function ($query) use ($modalidades) {
+                $query->whereIn('modalidades.id', $modalidades);
+            });
+        }
+
+        // Filtrar por horário
+        if (!empty($horario)) {
+            $atividades = $atividades->where('DataTime', $horario);
+        }
+
+        // Filtrar por cidade
+        if (!empty($cidade)) {
+            $atividades = $atividades->whereHas('cidade', function ($query) use ($cidade) {
                 $query->where('nome', 'like', '%' . $cidade . '%');
             });
         }
 
-        // Verificar se as modalidades foram especificadas
-        if ($modalidades && count($modalidades) > 0) {
-            $query->whereHas('modalidades', function ($query) use ($modalidades) {
-                $query->whereIn('id', $modalidades);
-            });
+        // Filtrar por preço mínimo e máximo
+        if (!empty($precoMinimo) && !empty($precoMaximo)) {
+            $atividades = $atividades->whereBetween('preco', [$precoMinimo, $precoMaximo]);
+        } elseif (!empty($precoMinimo)) {
+            // Filtrar apenas por preço mínimo
+            $atividades = $atividades->where('preco', '>=', $precoMinimo);
+        } elseif (!empty($precoMaximo)) {
+            // Filtrar apenas por preço máximo
+            $atividades = $atividades->where('preco', '<=', $precoMaximo);
         }
 
-        // Verificar se o horário foi especificado
-        if ($horario) {
-            $query->where('DataTime', $horario);
-        }
+        // Filtrar por idade mínima
+        if (!empty($idadeMinima)) {
+            $atividades = $atividades->where('idadeMinima', '>=', $idadeMinima);
+        };
 
-        // Verificar se o preço mínimo foi especificado
-        if ($precoMinimo) {
-            $query->where('preco', '>=', $precoMinimo);
-        }
 
-        // Verificar se o preço máximo foi especificado
-        if ($precoMaximo) {
-            $query->where('preco', '<=', $precoMaximo);
-        }
-
-        // Verificar se a idade mínima foi especificada
-        if ($idadeMinima) {
-            $query->where('IdadeMinima', '>=', $idadeMinima);
-        }
-
-        // Carregar relações
-        $query->with('guia', 'cidade.estado.pais', 'modalidades');
-
-        // Executar a consulta
-        $atividades = $query->get();
-
-        // Retornar os resultados
-        return response()->json($atividades);
+        // dd($atividades);
+        // dd(AtividadeResource::collection($atividades->get()));
+        return AtividadeResource::collection($atividades->get());
     }
 }

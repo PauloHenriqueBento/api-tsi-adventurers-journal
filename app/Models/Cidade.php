@@ -9,7 +9,7 @@ class Cidade extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome','estado_id'];
+    protected $fillable = ['nome', 'estado_id'];
 
     protected $primaryKey = 'id';
 
@@ -22,11 +22,11 @@ class Cidade extends Model
     //Relacionamento entre Estado e Cidade
     public function estado()
     {
-        return $this->belongsTo(Estado::class, 'estado_id','id');
+        return $this->belongsTo(Estado::class, 'estado_id', 'id');
     }
 
     public function user()
     {
-        return $this->hasMany(User::class, 'id_cidade','id');
+        return $this->hasMany(User::class, 'id_cidade', 'id');
     }
 }
