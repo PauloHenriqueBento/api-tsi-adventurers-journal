@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ItensPedido;
 use App\Http\Resources\ItensPedidoResource;
 use App\Http\Requests\StoreItensPedidoRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 
 class ItensPedidoController extends Controller
@@ -22,14 +23,6 @@ class ItensPedidoController extends Controller
             'mensagem' => 'Lista de itens do pedido retornada',
             'destinos' => ItensPedidoResource::collection($itens)
         ], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -70,14 +63,6 @@ class ItensPedidoController extends Controller
                 'error' => '404'
             ], 404);
         }
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(ItensPedido $itensPedido)
-    {
-        //
     }
 
     /**

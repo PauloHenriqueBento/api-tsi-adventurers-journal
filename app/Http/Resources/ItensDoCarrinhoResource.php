@@ -17,8 +17,8 @@ class ItensDoCarrinhoResource extends JsonResource
         return [
             'id' => $this->id,
             //Linha abaixo da erro no retorno do JSON (Ainda não descoberto)
-            //'idAtividade' => $this->Atividade,
-            'idViajante' => $this->User,
+            'idAtividade' => $this->Atividade,
+            'Viajante' => $this->User,
             'qtdPessoa' => $this->qtdPessoa,
         ];
     }

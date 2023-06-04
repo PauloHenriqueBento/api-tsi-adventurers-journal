@@ -9,7 +9,7 @@ class ItensDoCarrinho extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nome','idViajante','idAtividade','qtdPessoa'];
+    protected $fillable = ['nome', 'idViajante', 'idAtividade', 'qtdPessoa'];
 
     protected $primaryKey = 'id';
 
@@ -21,11 +21,11 @@ class ItensDoCarrinho extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'idViajante','id');
+        return $this->belongsTo(User::class, 'idViajante', 'id');
     }
 
     public function atividade()
     {
-        return $this->hasMany(Atividade::class,  'idAtividade','id');
-    }
+        return $this->belongsTo(Atividade::class, 'idAtividade');
+    }   
 }

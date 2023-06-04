@@ -14,11 +14,12 @@ class ItensDoCarrinhoController extends Controller
 {
     public function index()
     {
-        $carrinho = ItensDoCarrinho::all();
+        $idViajante = auth()->id();
+        $carrinho = ItensDoCarrinho::where('idViajante', $idViajante)->get();
 
         return response()->json([
             'status' => 200,
-            'mensagem' => 'Lista de carrinho retornado',
+            'mensagem' => 'Lista de carrinho retornada',
             'carrinho' => ItensDoCarrinhoResource::collection($carrinho)
         ], 200);
     }
@@ -27,7 +28,7 @@ class ItensDoCarrinhoController extends Controller
     {
         $carrinho = new ItensDoCarrinho();
 
-        $carrinho->idViajante = $request->idViajante;
+        $carrinho->idViajante = auth()->id();
         $carrinho->idAtividade = $request->idAtividade;
         $carrinho->qtdPessoa = $request->qtdPessoa;
 
@@ -44,26 +45,42 @@ class ItensDoCarrinhoController extends Controller
     {
         try {
             $carrinho = ItensDoCarrinho::findOrFail($id);
+
+            // Verificar se o usuário autenticado é o criador do item
+            if ($carrinho->idViajante !== auth()->id()) {
+                return response()->json([
+                    'status' => 401,
+                    'mensagem' => 'Não autorizado'
+                ], 401);
+            }
+
             return new ItensDoCarrinhoResource($carrinho);
         } catch (ModelNotFoundException $e) {
-            return response([
-                'Status' => 'Error',
-                'error' => '404'
+            return response()->json([
+                'status' => 404,
+                'mensagem' => 'Item não encontrado'
             ], 404);
         }
     }
 
     public function update(StoreItensDoCarrinhoRequest $request, string $id)
     {
-        $carrinho = ItensDoCarrinho::findOrfail($id);
-        $data = $request->all();
+        $carrinho = ItensDoCarrinho::findOrFail($id);
 
-        $carrinho->update($data);
-        //return new PaisResource($pais);
+        // Verificar se o usuário autenticado é o dono do carrinho
+        if ($carrinho->idViajante !== auth()->id()) {
+            return response()->json([
+                'status' => 401,
+                'mensagem' => 'Não autorizado'
+            ], 401);
+        }
+
+        $carrinho->qtdPessoa = $request->qtdPessoa;
+        $carrinho->save();
 
         return response()->json([
             'status' => 200,
-            'mensagem' => 'carrinho atualizado',
+            'mensagem' => 'Carrinho atualizado',
             'carrinho' => new ItensDoCarrinhoResource($carrinho)
         ], 200);
     }
@@ -79,11 +96,32 @@ class ItensDoCarrinhoController extends Controller
             ], 404);
         }
 
+        // Verificar se o usuário autenticado é o dono do carrinho
+        if ($carrinho->idViajante !== auth()->id()) {
+            return response()->json([
+                'status' => 401,
+                'mensagem' => 'Não autorizado'
+            ], 401);
+        }
+
         $carrinho->delete();
 
         return response()->json([
             'status' => 200,
             'mensagem' => 'Deletado com sucesso'
+        ], 200);
+    }
+
+    public function destroyAll()
+    {
+        $idViajante = auth()->id();
+
+        // Apagar todos os itens do carrinho do usuário autenticado
+        ItensDoCarrinho::where('idViajante', $idViajante)->delete();
+
+        return response()->json([
+            'status' => 200,
+            'mensagem' => 'Todos os itens do carrinho foram apagados'
         ], 200);
     }
 }

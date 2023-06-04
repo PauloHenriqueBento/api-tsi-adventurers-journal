@@ -22,8 +22,6 @@ Route::apiResource('/modalidades', ModalidadeController::class);
 Route::apiResource('Api/destino', DestinoController::class);
 
 Route::apiResource('Api/assinatura', AssinaturaController::class);
-Route::apiResource('/carrinho', ItensDoCarrinhoController::class);
-
 
 
 
@@ -63,6 +61,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/atividades/{atividade}', [AtividadeController::class, 'update']);
     Route::delete('/atividades/{atividade}', [AtividadeController::class, 'delete']);
 
-
+    // Itens do Pedido
     Route::apiResource('/itensdopedido', ItensPedidoController::class);
+
+    // Itens do Carrinho
+    Route::apiResource('/carrinho', ItensDoCarrinhoController::class);
+    Route::delete('/carrinho', [ItensDoCarrinhoController::class, 'destroyAll']); // Apagar todos os itens do carrinho
 });
