@@ -19,17 +19,18 @@ class AtividadeController extends Controller
 
         // Filtro por modalidade
         if ($request->has('modalidade')) {
-            $modalidade = $request->input('modalidade');
-            $query->whereHas('modalidades', function ($q) use ($modalidade) {
-                $q->where('nome', $modalidade);
-            });
+            $modalidade = $request->query('modalidade') ?? '';
+            $modalidades = !empty($modalidade) ? explode(',', $modalidade) : [];
+            $query->whereHas('modalidades', function ($query) use ($modalidades) {
+                $query->whereIn('modalidade_id', $modalidades);
+            }, '=', count($modalidades));
         }
 
         // Filtro por cidade
         if ($request->has('cidade')) {
             $cidade = $request->input('cidade');
             $query->whereHas('cidade', function ($q) use ($cidade) {
-                $q->where('nome', $cidade);
+                $q->where('nome', 'like', '%' . $cidade . '%');
             });
         }
 
@@ -62,6 +63,25 @@ class AtividadeController extends Controller
             $idadeMin = $request->input('idade_min');
             $query->where('IdadeMinima', '>=', $idadeMin);
         }
+
+        // Filtro por ordem de preço (ascendente ou descendente)
+        if ($request->has('ordenar_preco')) {
+            $ordenarPreco = $request->input('ordenar_preco');
+            $query->orderBy('preco', $ordenarPreco);
+        }
+
+        // Filtro por ordem de idade mínima (ascendente ou descendente)
+        if ($request->has('ordenar_idade')) {
+            $ordenarIdade = $request->input('ordenar_idade');
+            $query->orderBy('IdadeMinima', $ordenarIdade);
+        }
+
+        // Filtro por ordem alfabética do título (ascendente ou descendente)
+        if ($request->has('ordenar_titulo')) {
+            $ordenarTitulo = $request->input('ordenar_titulo');
+            $query->orderBy('Titulo', $ordenarTitulo);
+        }
+
 
         $atividades = $query->get();
         $totalResultados = $atividades->count();

@@ -43,7 +43,8 @@ Route::post('/login', [AuthController::class, 'loginUser']);
 Route::post('/users', [UserController::class, 'store']);
 Route::get('/users/{id}', [UserController::class, 'show']);
 Route::get('/users', [UserController::class, 'index']);
-Route::get('/atividades/search', [AtividadeController::class, 'searchAtividades']);
+Route::get('/atividades', [AtividadeController::class, 'index']);
+// Route::get('/atividades/search', [AtividadeController::class, 'searchAtividades']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
@@ -54,7 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Rotas para a entidade "Atividade"
     // Application/Json
-    Route::get('/atividades', [AtividadeController::class, 'index']);
+
     Route::get('/atividades/user', [AtividadeController::class, 'listByUser']);
     Route::get('/atividades/{atividade}', [AtividadeController::class, 'show']);
     Route::post('/atividades', [AtividadeController::class, 'store']);

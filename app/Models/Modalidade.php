@@ -22,6 +22,6 @@ class Modalidade extends Model
 
     public function atividades()
     {
-        return $this->belongsToMany(Atividade::class, 'atividade_modalidade');
+        return $this->belongsToMany(Atividade::class, 'atividade_modalidade', 'modalidade_id', 'atividade_id');
     }
 }
