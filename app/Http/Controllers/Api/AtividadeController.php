@@ -13,15 +13,67 @@ use Illuminate\Support\Facades\Auth;
 
 class AtividadeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $atividades = Atividade::all();
+        $query = Atividade::query();
+
+        // Filtro por modalidade
+        if ($request->has('modalidade')) {
+            $modalidade = $request->input('modalidade');
+            $query->whereHas('modalidades', function ($q) use ($modalidade) {
+                $q->where('nome', $modalidade);
+            });
+        }
+
+        // Filtro por cidade
+        if ($request->has('cidade')) {
+            $cidade = $request->input('cidade');
+            $query->whereHas('cidade', function ($q) use ($cidade) {
+                $q->where('nome', $cidade);
+            });
+        }
+
+        // Filtro por dia
+        if ($request->has('dia')) {
+            $dia = $request->input('dia');
+            $query->whereDate('DataTime', '=', $dia);
+        }
+
+        // Filtro por horário
+        if ($request->has('horario')) {
+            $horario = $request->input('horario');
+            $query->whereTime('DataTime', '=', $horario);
+        }
+
+        // Filtro por preço mínimo
+        if ($request->has('preco_min')) {
+            $precoMin = $request->input('preco_min');
+            $query->where('preco', '>=', $precoMin);
+        }
+
+        // Filtro por preço máximo
+        if ($request->has('preco_max')) {
+            $precoMax = $request->input('preco_max');
+            $query->where('preco', '<=', $precoMax);
+        }
+
+        // Filtro por idade mínima
+        if ($request->has('idade_min')) {
+            $idadeMin = $request->input('idade_min');
+            $query->where('IdadeMinima', '>=', $idadeMin);
+        }
+
+        $atividades = $query->get();
+        $totalResultados = $atividades->count();
 
         if ($atividades->isEmpty()) {
             return response()->json(['message' => 'Sem atividades'], 200);
         }
 
-        return AtividadeResource::collection($atividades);
+        return response()->json([
+            'total' => $totalResultados,
+            'atividades' => AtividadeResource::collection($atividades)
+        ], 200);
     }
 
     public function store(StoreAtividadeRequest $request)
