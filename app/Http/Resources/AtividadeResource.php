@@ -20,6 +20,7 @@ class AtividadeResource extends JsonResource
                 'id' => $this->IdGuia,
                 'nome' => $this->guia->name,
                 'email' => $this->guia->email,
+                'bio' => $this->guia->bio,
             ],
             'cidade' => [
                 'id' => $this->idCidade,
