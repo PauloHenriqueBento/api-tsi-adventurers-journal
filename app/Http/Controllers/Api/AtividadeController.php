@@ -10,6 +10,7 @@ use App\Models\Atividade;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AtividadeController extends Controller
 {
@@ -20,6 +21,10 @@ class AtividadeController extends Controller
         if ($atividades->isEmpty()) {
             return response()->json(['message' => 'Sem atividades'], 200);
         }
+
+        $atividades->each(function ($atividade) {
+            $atividade->photo_path = $atividade->photo_path ? asset('storage/' . $atividade->photo_path) : null;
+        });
 
         return AtividadeResource::collection($atividades);
     }
@@ -43,11 +48,19 @@ class AtividadeController extends Controller
         $modalidades = $request->input('Modalidades');
         $atividade->modalidades()->attach($modalidades);
 
+        if ($request->hasFile('photo_path')) {
+            $profilePhoto = $request->file('photo_path');
+            $profilePhotoPath = $profilePhoto->storePublicly('atividade_photos', 'public');
+            $atividade->photo_path = $profilePhotoPath;
+            $atividade->save();
+        }
+
         return new AtividadeResource($atividade);
     }
 
     public function show(Atividade $atividade)
     {
+        $atividade->photo_path = $atividade->photo_path ? asset('storage/' . $atividade->photo_path) : null;
         return new AtividadeResource($atividade);
     }
 
@@ -56,6 +69,19 @@ class AtividadeController extends Controller
         $this->authorize('update', $atividade);
 
         $data = $request->validated();
+
+        // Verifica se uma nova imagem foi enviada
+        if ($request->hasFile('photo_path')) {
+            $photo = $request->file('photo_path');
+            $photoPath = $photo->storePublicly('atividade_photos', 'public');
+
+            // Remove a imagem antiga, se existir
+            if ($atividade->photo_path) {
+                Storage::disk('public')->delete($atividade->photo_path);
+            }
+
+            $data['photo_path'] = $photoPath;
+        }
 
         $atividade->update($data);
 
@@ -93,6 +119,10 @@ class AtividadeController extends Controller
         if ($atividades->isEmpty()) {
             return response()->json(['message' => 'Nenhuma atividade encontrada'], 200);
         }
+
+        $atividades->each(function ($atividade) {
+            $atividade->photo_path = $atividade->photo_path ? asset('storage/' . $atividade->photo_path) : null;
+        });
 
         return AtividadeResource::collection($atividades);
     }

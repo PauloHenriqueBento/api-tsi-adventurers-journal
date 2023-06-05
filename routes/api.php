@@ -58,7 +58,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/atividades/user', [AtividadeController::class, 'listByUser']);
     Route::get('/atividades/{atividade}', [AtividadeController::class, 'show']);
     Route::post('/atividades', [AtividadeController::class, 'store']);
-    Route::put('/atividades/{atividade}', [AtividadeController::class, 'update']);
+    Route::post('/atividades/{atividade}', [AtividadeController::class, 'update']);
     Route::delete('/atividades/{atividade}', [AtividadeController::class, 'delete']);
 
     // Itens do Pedido

@@ -33,6 +33,7 @@ class AtividadeResource extends JsonResource
             'Data_e_Hora' => $this->DataTime,
             'Idade minima' => $this->IdadeMinima,
             'modalidade' => ModalidadeResource::collection($this->modalidades),
+            'foto_url' => $this->photo_path
         ];
     }
 }
