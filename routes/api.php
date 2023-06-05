@@ -67,5 +67,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Itens do Carrinho
     Route::apiResource('/carrinho', ItensDoCarrinhoController::class);
-    Route::delete('/carrinho', [ItensDoCarrinhoController::class, 'destroyAll']); // Apagar todos os itens do carrinho
+    Route::delete('/carrinho', [ItensDoCarrinhoController::class, 'destroy']); // Apagar todos os itens do carrinho
+    Route::delete('/carrinho/all', [ItensDoCarrinhoController::class, 'destroyAll']); // Apagar todos os itens do carrinho
 });
