@@ -16,7 +16,8 @@ class Atividade extends Model
         'Titulo',
         'Descricao',
         'DataTime',
-        'IdadeMinima'
+        'IdadeMinima',
+        'photo_path'
     ];
 
     public function guia()
