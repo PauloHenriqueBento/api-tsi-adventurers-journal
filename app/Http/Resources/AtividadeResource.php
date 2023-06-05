@@ -21,6 +21,7 @@ class AtividadeResource extends JsonResource
                 'nome' => $this->guia->name,
                 'email' => $this->guia->email,
                 'bio' => $this->guia->bio,
+                'foto' => $this->guia->profile_photo_path,
             ],
             'cidade' => [
                 'id' => $this->idCidade,
