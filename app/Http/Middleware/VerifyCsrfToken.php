@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         'login',
         'logout',
         'atividades',
+        'carrinho',
         'carrinho/*',
         'carrinho/all',
         'carrinho/all/*',
