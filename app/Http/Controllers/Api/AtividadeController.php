@@ -40,10 +40,11 @@ class AtividadeController extends Controller
             $dia = $request->input('dia');
             $query->whereDate('DataTime', '>=', $dia)
                 ->whereDate('DataTime', '>=', now()->format('Y-m-d'));
-        } else {
-            // Se não for fornecido nenhum dia, filtra a partir do dia atual
-            $query->whereDate('DataTime', '>=', now()->format('Y-m-d'));
         }
+        // else {
+        //     // Se não for fornecido nenhum dia, filtra a partir do dia atual
+        //     $query->whereDate('DataTime', '>=', now()->format('Y-m-d'));
+        // }
 
         // Filtro por horário
         if ($request->has('horario')) {

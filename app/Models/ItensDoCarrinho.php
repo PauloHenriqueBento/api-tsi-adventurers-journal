@@ -27,5 +27,5 @@ class ItensDoCarrinho extends Model
     public function atividade()
     {
         return $this->belongsTo(Atividade::class, 'idAtividade');
-    }   
+    }
 }
