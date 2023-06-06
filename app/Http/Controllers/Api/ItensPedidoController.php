@@ -10,6 +10,8 @@ use App\Models\ItensDoCarrinho;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class ItensPedidoController extends Controller
 {
@@ -25,7 +27,7 @@ class ItensPedidoController extends Controller
         return response()->json([
             'status' => 200,
             'mensagem' => 'Lista de itens do pedido retornada',
-            'itens do pedido' => ItensPedidoResource::collection($itens)
+            'itens_do_pedido' => ItensPedidoResource::collection($itens)
         ], 200);
     }
 
@@ -35,9 +37,17 @@ class ItensPedidoController extends Controller
     public function store(StoreItensPedidoRequest $request)
     {
         $idViajante = auth()->id();
+        $query = ItensDoCarrinho::query();
+        $query->where('idViajante', $idViajante);
 
-        // Obter os itens do carrinho do usuário
-        $itensCarrinho = ItensDoCarrinho::where('idViajante', $idViajante)->get();
+        if ($request->has('cart')) {
+            $cart = $request->input('cart') ?? '';
+            $itens = !empty($cart) ? explode(',', $cart) : [];
+            $query->whereIn('id', $itens);
+        }
+
+        $itensCarrinho = $query->get();
+
 
         // Verificar se o carrinho está vazio
         if ($itensCarrinho->isEmpty()) {
@@ -47,9 +57,13 @@ class ItensPedidoController extends Controller
             ], 200);
         }
 
+        // Codigo
+        $codigoAleatorio = Str::random(7); // Gera uma sequência aleatória com 7 caracteres
+        $codigoGerado = 'ADVENTURE' . $codigoAleatorio;
+
         // Validar o valor de FormaPag
         $formaPagamento = $request->input('FormaPag');
-        $formasPagamentoPermitidas = ['boleto', 'PIX', 'Cartão'];
+        $formasPagamentoPermitidas = ['boleto', 'pix', 'cartao'];
         if (!in_array($formaPagamento, $formasPagamentoPermitidas)) {
             return response()->json([
                 'status' => 400,
@@ -57,25 +71,28 @@ class ItensPedidoController extends Controller
             ], 400);
         }
 
+        //Preço total
+        $totalPrice = $request->input('totalPrice');
+
         // Criar um novo item do pedido para cada item do carrinho
         $itensPedido = [];
 
         foreach ($itensCarrinho as $itemCarrinho) {
             $itemPedido = new ItensPedido();
+            $itemPedido->codigo_gerado = $codigoGerado;
             $itemPedido->idUsuario = $idViajante;
             $itemPedido->idAtividade = $itemCarrinho->idAtividade;
             $itemPedido->qtdPessoa = $itemCarrinho->qtdPessoa;
             $itemPedido->DatadoPedido = Carbon::now(); // Definir a data atual
-            $itemPedido->TotalPedido = $itemCarrinho->atividade->preco * $itemCarrinho->qtdPessoa; // Calcular o total
+            $itemPedido->TotalPedido = $totalPrice; // Calcular o total
             $itemPedido->FormaPag = $formaPagamento;
             $itemPedido->status = 'pendente';
             $itemPedido->save();
 
             $itensPedido[] = $itemPedido;
+            $itemCarrinho->delete();
         }
 
-        // Limpar todos os itens do carrinho do usuário
-        ItensDoCarrinho::where('idViajante', $idViajante)->delete();
 
         return response()->json([
             'status' => 200,
