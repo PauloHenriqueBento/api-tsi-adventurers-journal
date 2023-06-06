@@ -1,0 +1,1418 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "TSI API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Autenticar usuário",
+                "operationId": "loginUser",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "john@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso"
+                    },
+                    "401": {
+                        "description": "Erro de validação ou credenciais inválidas"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Autenticação"
+                ],
+                "summary": "Desconectar usuário",
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso"
+                    },
+                    "401": {
+                        "description": "Não autorizado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/cidade": {
+            "get": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Obter lista de cidades",
+                "operationId": "ecba5880ce1bf48aeb9f4c2ced6e998b",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Lista de cidades retornada"
+                                        },
+                                        "cidades": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/CidadeSchema"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Criar uma nova cidade",
+                "operationId": "3889c0e5504e87be63a884cf59822b96",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CidadeRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Cidade criada"
+                                        },
+                                        "cidade": {
+                                            "$ref": "#/components/schemas/CidadeSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/cidade/{id}": {
+            "get": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Obter os detalhes de uma cidade",
+                "operationId": "ed6cc68c4016e65158046ef622df9c14",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CidadeSchema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Atualizar uma cidade",
+                "operationId": "b6797ae33c8564e199d6708df99e4495",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CidadeRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Cidade atualizada"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Cidades"
+                ],
+                "summary": "Deletar uma cidade",
+                "operationId": "6a8758f55836e0b9e90475219c806667",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da cidade",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Deletado com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Registro não encontrado"
+                    }
+                }
+            }
+        },
+        "/estado": {
+            "get": {
+                "tags": [
+                    "Estados"
+                ],
+                "summary": "Obter lista de estados",
+                "operationId": "getEstados",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Lista de estados retornada"
+                                        },
+                                        "estados": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/EstadoSchema"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Estados"
+                ],
+                "summary": "Criar novo estado",
+                "operationId": "createEstado",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EstadoRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Estado criado"
+                                        },
+                                        "estado": {
+                                            "$ref": "#/components/schemas/EstadoSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            }
+        },
+        "/estado/{id}": {
+            "get": {
+                "tags": [
+                    "Estados"
+                ],
+                "summary": "Obter informações de um estado",
+                "operationId": "getEstado",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do estado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EstadoSchema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estado não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Estados"
+                ],
+                "summary": "Atualizar informações de um estado",
+                "operationId": "updateEstado",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do estado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EstadoRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Estado atualizado"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
+                    "404": {
+                        "description": "Estado não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Estados"
+                ],
+                "summary": "Excluir um estado",
+                "operationId": "deleteEstado",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do estado",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        },
+                                        "mensagem": {
+                                            "type": "string",
+                                            "example": "Deletado com sucesso"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Estado não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            }
+        },
+        "/modalidade": {
+            "get": {
+                "tags": [
+                    "Modalidades"
+                ],
+                "summary": "Lista de modalidades",
+                "description": "Retorna a lista de modalidades.",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ModalidadeSchema"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Modalidades"
+                ],
+                "summary": "Criar modalidade",
+                "description": "Cria uma nova modalidade.",
+                "operationId": "store",
+                "requestBody": {
+                    "description": "Dados da modalidade",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModalidadeRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ModalidadeSchema"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Erro de validação",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The given data was invalid."
+                                        },
+                                        "errors": {
+                                            "type": "object",
+                                            "example": {
+                                                "nome": [
+                                                    "O campo nome é obrigatório."
+                                                ]
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/modalidade/{id}": {
+            "get": {
+                "tags": [
+                    "Modalidades"
+                ],
+                "summary": "Detalhes da modalidade",
+                "description": "Retorna os detalhes de uma modalidade.",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da modalidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ModalidadeSchema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modalidade não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Status": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "404"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Modalidades"
+                ],
+                "summary": "Atualizar modalidade",
+                "description": "Atualiza uma modalidade existente.",
+                "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da modalidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Dados da modalidade",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ModalidadeRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ModalidadeSchema"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Modalidade não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Status": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "404"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Modalidades"
+                ],
+                "summary": "Deletar modalidade",
+                "description": "Deleta uma modalidade existente.",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID da modalidade",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Sucesso"
+                    },
+                    "404": {
+                        "description": "Modalidade não encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "Status": {
+                                            "type": "string",
+                                            "example": "Error"
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "404"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/paises": {
+            "get": {
+                "tags": [
+                    "Países"
+                ],
+                "summary": "Obter lista de países",
+                "operationId": "getPaises",
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/PaisSchema"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Países"
+                ],
+                "summary": "Criar novo país",
+                "operationId": "createPais",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaisRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaisSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            }
+        },
+        "/pais/{id}": {
+            "get": {
+                "tags": [
+                    "Países"
+                ],
+                "summary": "Obter informações de um país",
+                "operationId": "getPais",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do país",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaisSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Países"
+                ],
+                "summary": "Atualizar informações de um país",
+                "operationId": "updatePais",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do país",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PaisRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/PaisSchema"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Requisição inválida"
+                    },
+                    "404": {
+                        "description": "Não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Países"
+                ],
+                "summary": "Excluir um país",
+                "operationId": "deletePais",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID do país",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Excluído com sucesso"
+                    },
+                    "404": {
+                        "description": "Não encontrado"
+                    },
+                    "500": {
+                        "description": "Erro interno do servidor"
+                    }
+                }
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get all users",
+                "operationId": "c5892e9954ff5ccf5cac53a8cadb4650",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/UserSchema"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update the authenticated user",
+                "operationId": "6069c00eaab3a7ff0c44e75d385cc2f1",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSchema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new user",
+                "operationId": "9bbd0f3a2d2f2379dc77b4d83fe28ef0",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UserRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "user": {
+                                            "$ref": "#/components/schemas/UserSchema"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/me": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get the authenticated user",
+                "operationId": "bdf7fbe91bd59f079f731023ba0e3fce",
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/UserSchema"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CidadeRequestBody": {
+                "title": "Corpo da Requisição para Cidade",
+                "description": "Esquema de dados para o corpo da requisição ao criar ou atualizar uma cidade",
+                "properties": {
+                    "nome": {
+                        "description": "Nome da cidade",
+                        "type": "string",
+                        "example": "São Paulo"
+                    }
+                },
+                "type": "object"
+            },
+            "CidadeSchema": {
+                "title": "Esquema de Cidade",
+                "description": "Esquema de dados para o recurso de Cidade",
+                "properties": {
+                    "id": {
+                        "description": "ID da cidade",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "nome": {
+                        "description": "Nome da cidade",
+                        "type": "string",
+                        "example": "São Paulo"
+                    },
+                    "estado": {
+                        "$ref": "#/components/schemas/EstadoSchema"
+                    }
+                },
+                "type": "object"
+            },
+            "EstadoRequestBody": {
+                "title": "Corpo da Requisição para Estado",
+                "description": "Esquema de dados para o corpo da requisição ao criar ou atualizar um estado",
+                "properties": {
+                    "nome": {
+                        "description": "Nome do estado",
+                        "type": "string",
+                        "example": "São Paulo"
+                    },
+                    "uf": {
+                        "description": "Sigla do estado",
+                        "type": "string",
+                        "example": "SP"
+                    },
+                    "pais": {
+                        "$ref": "#/components/schemas/PaisSchema"
+                    },
+                    "cidades": {
+                        "description": "Lista de cidades do estado",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CidadeSchema"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "EstadoSchema": {
+                "title": "Esquema de Estado",
+                "description": "Esquema de dados para o recurso de Estado",
+                "properties": {
+                    "id": {
+                        "description": "ID do estado",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "nome": {
+                        "description": "Nome do estado",
+                        "type": "string",
+                        "example": "São Paulo"
+                    },
+                    "uf": {
+                        "description": "Sigla do estado",
+                        "type": "string",
+                        "example": "SP"
+                    },
+                    "pais": {
+                        "$ref": "#/components/schemas/PaisSchema"
+                    },
+                    "cidades": {
+                        "description": "Lista de cidades do estado",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/CidadeSchema"
+                        }
+                    }
+                },
+                "type": "object"
+            },
+            "ModalidadeRequestBody": {
+                "title": "Corpo da Requisição para Modalidade",
+                "description": "Esquema de dados para o corpo da requisição ao criar ou atualizar uma modalidade",
+                "properties": {
+                    "nome": {
+                        "description": "Nome da modalidade",
+                        "type": "string",
+                        "example": "Natação"
+                    },
+                    "descricao": {
+                        "description": "Descrição da modalidade",
+                        "type": "string",
+                        "example": "Modalidade esportiva de natação"
+                    },
+                    "photo_path": {
+                        "description": "Caminho da foto da modalidade",
+                        "type": "string",
+                        "example": "/path/to/photo.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "ModalidadeSchema": {
+                "title": "Modalidade",
+                "description": "Esquema de dados para a modalidade",
+                "properties": {
+                    "id": {
+                        "description": "ID da modalidade",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "nome": {
+                        "description": "Nome da modalidade",
+                        "type": "string",
+                        "example": "Natação"
+                    },
+                    "descricao": {
+                        "description": "Descrição da modalidade",
+                        "type": "string",
+                        "example": "Modalidade esportiva de natação"
+                    },
+                    "photo_path": {
+                        "description": "Caminho da foto da modalidade",
+                        "type": "string",
+                        "example": "/path/to/photo.jpg"
+                    }
+                },
+                "type": "object"
+            },
+            "PaisRequestBody": {
+                "title": "Corpo da Requisição para País",
+                "description": "Esquema de dados para o corpo da requisição ao criar ou atualizar um país",
+                "properties": {
+                    "nome": {
+                        "description": "Nome do país",
+                        "type": "string",
+                        "example": "Brasil"
+                    }
+                },
+                "type": "object"
+            },
+            "PaisSchema": {
+                "title": "Esquema de País",
+                "description": "Esquema de dados para o recurso de País",
+                "properties": {
+                    "identify": {
+                        "description": "ID do país",
+                        "type": "integer",
+                        "example": "1"
+                    },
+                    "nome": {
+                        "description": "Nome do país",
+                        "type": "string",
+                        "example": "Brasil"
+                    },
+                    "estado": {
+                        "$ref": "#/components/schemas/EstadoSchema"
+                    }
+                },
+                "type": "object"
+            },
+            "UserRequestBody": {
+                "title": "Corpo da Requisição para Usuário",
+                "description": "Esquema de dados para o corpo da requisição ao criar ou atualizar um usuário",
+                "properties": {
+                    "name": {
+                        "description": "Nome do usuário",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email do usuário",
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    },
+                    "password": {
+                        "description": "Senha do usuário",
+                        "type": "string",
+                        "format": "password"
+                    },
+                    "data_nascimento": {
+                        "description": "Data de nascimento do usuário",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-01-01"
+                    },
+                    "id_cidade": {
+                        "description": "ID da cidade do usuário",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "isGuia": {
+                        "description": "Indica se o usuário é um guia",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "profile_photo_path": {
+                        "description": "Caminho da foto de perfil do usuário",
+                        "type": "string",
+                        "example": "path/to/profile/photo.jpg"
+                    },
+                    "profile_banner_path": {
+                        "description": "Caminho do banner de perfil do usuário",
+                        "type": "string",
+                        "example": "path/to/profile/banner.jpg"
+                    },
+                    "modalidade": {
+                        "description": "Modalidade do usuário",
+                        "type": "string",
+                        "example": "Hiking"
+                    },
+                    "telefone": {
+                        "description": "Número de telefone do usuário",
+                        "type": "string",
+                        "example": "1234567890"
+                    },
+                    "facebook_url": {
+                        "description": "URL do perfil do usuário no Facebook",
+                        "type": "string",
+                        "example": "https://www.facebook.com/johndoe"
+                    },
+                    "instagram_url": {
+                        "description": "URL do perfil do usuário no Instagram",
+                        "type": "string",
+                        "example": "https://www.instagram.com/johndoe"
+                    },
+                    "twitter_url": {
+                        "description": "URL do perfil do usuário no Twitter",
+                        "type": "string",
+                        "example": "https://www.twitter.com/johndoe"
+                    },
+                    "bio": {
+                        "description": "Biografia do usuário",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    }
+                },
+                "type": "object"
+            },
+            "UserSchema": {
+                "title": "Usuário",
+                "description": "Esquema de dados do usuário",
+                "properties": {
+                    "id": {
+                        "description": "ID do usuário",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "name": {
+                        "description": "Nome do usuário",
+                        "type": "string",
+                        "example": "John Doe"
+                    },
+                    "email": {
+                        "description": "Email do usuário",
+                        "type": "string",
+                        "format": "email",
+                        "example": "johndoe@example.com"
+                    },
+                    "data_nascimento": {
+                        "description": "Data de nascimento do usuário",
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-01-01"
+                    },
+                    "id_cidade": {
+                        "description": "ID da cidade do usuário",
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "isGuia": {
+                        "description": "Indica se o usuário é um guia",
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "profile_photo_path": {
+                        "description": "Caminho da foto de perfil do usuário",
+                        "type": "string",
+                        "example": "path/to/profile/photo.jpg"
+                    },
+                    "profile_banner_path": {
+                        "description": "Caminho do banner de perfil do usuário",
+                        "type": "string",
+                        "example": "path/to/profile/banner.jpg"
+                    },
+                    "modalidade": {
+                        "description": "Modalidades do usuário",
+                        "type": "array",
+                        "items": {
+                            "type": "integer",
+                            "example": [
+                                1,
+                                2,
+                                3
+                            ]
+                        }
+                    },
+                    "telefone": {
+                        "description": "Número de telefone do usuário",
+                        "type": "string",
+                        "example": "1234567890"
+                    },
+                    "facebook_url": {
+                        "description": "URL do perfil do usuário no Facebook",
+                        "type": "string",
+                        "example": "https://www.facebook.com/johndoe"
+                    },
+                    "instagram_url": {
+                        "description": "URL do perfil do usuário no Instagram",
+                        "type": "string",
+                        "example": "https://www.instagram.com/johndoe"
+                    },
+                    "twitter_url": {
+                        "description": "URL do perfil do usuário no Twitter",
+                        "type": "string",
+                        "example": "https://www.twitter.com/johndoe"
+                    },
+                    "bio": {
+                        "description": "Biografia do usuário",
+                        "type": "string",
+                        "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                    }
+                },
+                "type": "object"
+            }
+        }
+    }
+}

@@ -21,6 +21,17 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'data_nascimento',
+        'id_cidade',
+        'isGuia',
+        'profile_photo_path',
+        'profile_banner_path',
+        'modalidade',
+        'telefone',
+        'facebook_url',
+        'instagram_url',
+        'twitter_url',
+        'bio',
     ];
 
     /**
@@ -41,4 +52,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function modalidades()
+    {
+        return $this->belongsToMany(Modalidade::class, 'user_modalidade', 'users_id', 'modalidades_id');
+    }
+
+    public function cidade()
+    {
+        return $this->belongsTo(User::class, 'id_cidade', 'id');
+    }
+
+    public function itensDoCarrinho()
+    {
+        return $this->hasMany(ItensDoCarrinho::class,  'idViajante', 'id');
+    }
 }
