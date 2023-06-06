@@ -12,8 +12,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        DB::statement("ALTER TABLE itensdopedido MODIFY FormaPag ENUM('Boleto', 'PIX', 'Cartão') NOT NULL");
-        DB::statement("ALTER TABLE itensdopedido MODIFY status ENUM('pendente', 'aprovado', 'cancelado', 'entregue') NOT NULL");
+        DB::statement("ALTER TABLE ItensDoPedido MODIFY FormaPag ENUM('Boleto', 'PIX', 'Cartão') NOT NULL");
+        DB::statement("ALTER TABLE ItensDoPedido MODIFY status ENUM('pendente', 'aprovado', 'cancelado', 'entregue') NOT NULL");
     }
 
     /**
@@ -21,7 +21,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE itensdopedido MODIFY FormaPag VARCHAR(255) NOT NULL");
-        DB::statement("ALTER TABLE itensdopedido MODIFY status VARCHAR(255) NOT NULL");
+        DB::statement("ALTER TABLE ItensDoPedido MODIFY FormaPag VARCHAR(255) NOT NULL");
+        DB::statement("ALTER TABLE ItensDoPedido MODIFY status VARCHAR(255) NOT NULL");
     }
 };
