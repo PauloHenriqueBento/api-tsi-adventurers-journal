@@ -57,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Application/Json
 
     Route::get('/atividades/user', [AtividadeController::class, 'listByUser']);
+    Route::get('/atividades/id/{user}', [AtividadeController::class, 'listByUserId']);
     Route::get('/atividades/{atividade}', [AtividadeController::class, 'show']);
     Route::post('/atividades', [AtividadeController::class, 'store']);
     Route::post('/atividades/{atividade}', [AtividadeController::class, 'update']);

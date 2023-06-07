@@ -201,6 +201,27 @@ class AtividadeController extends Controller
         return AtividadeResource::collection($atividades);
     }
 
+    public function listByUserId($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        $atividades = Atividade::where('IdGuia', $userId)->get();
+
+        if ($atividades->isEmpty()) {
+            return response()->json(['message' => 'Nenhuma atividade encontrada'], 200);
+        }
+
+        $atividades->each(function ($atividade) {
+            $atividade->photo_path = $atividade->photo_path ? asset('storage/' . $atividade->photo_path) : null;
+        });
+
+        return AtividadeResource::collection($atividades);
+    }
+
     public function searchAtividades(Request $request)
     {
         $modalidades = $request->query('modalidades') ?? '';
