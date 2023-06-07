@@ -17,10 +17,13 @@ class VerifyCsrfToken extends Middleware
         'login',
         'logout',
         'atividades',
+        'atividades/id',
         'carrinho',
         'carrinho/*',
         'carrinho/all',
         'carrinho/all/*',
         'itensdopedido',
+        'itensdopedido/*',
+        'itensdopedido/id',
     ];
 }

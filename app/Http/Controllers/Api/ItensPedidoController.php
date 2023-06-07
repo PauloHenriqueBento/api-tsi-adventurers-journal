@@ -137,19 +137,21 @@ class ItensPedidoController extends Controller
         }
 
         // Atualizar apenas o status do item do pedido
-        $status = $request->input('status');
+        $status = $request->input('status') ?? '';
         $nota = $request->input('nota');
         $comentario = $request->input('comentario');
-        if ($status != 'aprovado' && $status != 'cancelado') {
-            return response()->json([
-                'status' => 400,
-                'mensagem' => 'Status inválido. Os valores permitidos são: aprovado, cancelado'
-            ], 400);
-        }
+        if ($status)
+            if ($status != 'aprovado' && $status != 'cancelado' && $status != 'pendente') {
+                return response()->json([
+                    'status' => 400,
+                    'mensagem' => 'Status inválido. Os valores permitidos são: aprovado, cancelado'
+                ], 400);
+            }
 
-        $itens->status = $status;
-        $itens->nota = $nota;
-        $itens->comentario = $comentario;
+        if ($status)
+            $itens->status = $status ?? '';
+        $itens->nota = $nota ?? '';
+        $itens->comentario = $comentario ?? '';
         $itens->save();
 
         return response()->json([
