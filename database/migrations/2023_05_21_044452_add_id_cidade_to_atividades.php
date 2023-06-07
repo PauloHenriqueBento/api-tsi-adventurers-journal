@@ -24,10 +24,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('atividades', function (Blueprint $table) {
-            if (!Schema::hasColumn('atividades', 'idCidade')) {
-                $table->unsignedBigInteger('idCidade')->after('idModalidade');
-                $table->foreign('idCidade')->references('id')->on('cidade');
-            }
         });
     }
 };
