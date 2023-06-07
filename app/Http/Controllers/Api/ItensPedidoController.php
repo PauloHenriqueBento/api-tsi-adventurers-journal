@@ -7,6 +7,7 @@ use App\Models\ItensPedido;
 use App\Http\Resources\ItensPedidoResource;
 use App\Http\Requests\StoreItensPedidoRequest;
 use App\Models\ItensDoCarrinho;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
@@ -176,6 +177,27 @@ class ItensPedidoController extends Controller
         return response()->json([
             'status' => 200,
             'mensagem' => 'Deletado com sucesso'
+        ], 200);
+    }
+
+    public function listByUserId($idUsuario)
+    {
+        $user = User::find($idUsuario);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
+
+        $itens = ItensPedido::where('idUsuario', $idUsuario)->get();
+
+        if ($itens->isEmpty()) {
+            return response()->json(['message' => 'Nenhum item do pedido encontrado'], 200);
+        }
+
+        return response()->json([
+            'status' => 200,
+            'mensagem' => 'Lista de itens do pedido retornada',
+            'itens_do_pedido' => ItensPedidoResource::collection($itens)
         ], 200);
     }
 }

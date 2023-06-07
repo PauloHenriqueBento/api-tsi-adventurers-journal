@@ -65,6 +65,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Itens do Pedido
     Route::apiResource('/itensdopedido', ItensPedidoController::class);
+    Route::get('/itensdopedido/id/{user}', [ItensPedidoController::class, 'listByUserId']);
+
+
 
     // Itens do Carrinho
     Route::apiResource('/carrinho', ItensDoCarrinhoController::class);
