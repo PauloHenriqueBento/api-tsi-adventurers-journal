@@ -12,10 +12,25 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class ItensDoCarrinhoController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $idViajante = auth()->id();
-        $carrinho = ItensDoCarrinho::where('idViajante', $idViajante)->get();
+        $query = ItensDoCarrinho::query();
+        $query = $query->where('idViajante', $idViajante);
+        // $carrinho = ItensDoCarrinho::where('idViajante', $idViajante)->get();
+
+        // Filtro por modalidade
+        if ($request->has('cart')) {
+            $cart = $request->query('cart') ?? '';
+            $itens = !empty($cart) ? explode(',', $cart) : [];
+            $query->whereIn('id', $itens);
+        }
+
+        $carrinho = $query->get();
+
+        if ($carrinho->isEmpty()) {
+            return response()->json(['message' => 'Nenhum item'], 200);
+        }
 
         return response()->json([
             'status' => 200,

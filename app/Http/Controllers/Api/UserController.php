@@ -71,11 +71,14 @@ class UserController extends Controller
     public function store(StoreUpdateUserRequest $request)
     {
         // Verificar se o usuário está criando um Guia
-        $isGuia = $request->input('isGuia') === true;
+        $isGuia = boolval($request->input('isGuia'));
 
         $data = $request->validated();
         $data['password'] = bcrypt($request->password);
         $data['isGuia'] = $isGuia;
+
+        // Atribuir a assinatura gratuita
+        $data['assinatura_id'] = 1;
 
         // Criar o usuário
         $user = User::create($data);

@@ -14,6 +14,10 @@ class AssinaturaResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'identify' => $this->id,
+            'nome' => $this->nome,
+            'preco' => $this->preco
+        ];
     }
 }

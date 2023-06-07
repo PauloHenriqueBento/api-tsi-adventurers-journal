@@ -40,10 +40,11 @@ class AtividadeController extends Controller
             $dia = $request->input('dia');
             $query->whereDate('DataTime', '>=', $dia)
                 ->whereDate('DataTime', '>=', now()->format('Y-m-d'));
-        } else {
-            // Se não for fornecido nenhum dia, filtra a partir do dia atual
-            $query->whereDate('DataTime', '>=', now()->format('Y-m-d'));
         }
+        // else {
+        //     // Se não for fornecido nenhum dia, filtra a partir do dia atual
+        //     $query->whereDate('DataTime', '>=', now()->format('Y-m-d'));
+        // }
 
         // Filtro por horário
         if ($request->has('horario')) {
@@ -186,6 +187,27 @@ class AtividadeController extends Controller
     public function listByUser()
     {
         $userId = Auth::id();
+
+        $atividades = Atividade::where('IdGuia', $userId)->get();
+
+        if ($atividades->isEmpty()) {
+            return response()->json(['message' => 'Nenhuma atividade encontrada'], 200);
+        }
+
+        $atividades->each(function ($atividade) {
+            $atividade->photo_path = $atividade->photo_path ? asset('storage/' . $atividade->photo_path) : null;
+        });
+
+        return AtividadeResource::collection($atividades);
+    }
+
+    public function listByUserId($userId)
+    {
+        $user = User::find($userId);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuário não encontrado'], 404);
+        }
 
         $atividades = Atividade::where('IdGuia', $userId)->get();
 
