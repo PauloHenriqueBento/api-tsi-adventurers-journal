@@ -13,7 +13,7 @@ class ItensPedido extends Model
 
     protected $primaryKey = 'id';
 
-    protected $table = 'itensDoPedido';
+    protected $table = 'ItensDoPedido';
 
     public $incrementing = true;
 
