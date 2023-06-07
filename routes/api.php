@@ -45,6 +45,8 @@ Route::get('/users/{id}', [UserController::class, 'show']);
 Route::get('/users', [UserController::class, 'index']);
 Route::get('/atividades', [AtividadeController::class, 'index']);
 // Route::get('/atividades/search', [AtividadeController::class, 'searchAtividades']);
+Route::get('/itensdopedido/id/{user}', [ItensPedidoController::class, 'listByUserId']);
+Route::get('/atividades/id/{user}', [AtividadeController::class, 'listByUserId']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/users/{id}', [UserController::class, 'destroy']);
@@ -57,7 +59,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // Application/Json
 
     Route::get('/atividades/user', [AtividadeController::class, 'listByUser']);
-    Route::get('/atividades/id/{user}', [AtividadeController::class, 'listByUserId']);
     Route::get('/atividades/{atividade}', [AtividadeController::class, 'show']);
     Route::post('/atividades', [AtividadeController::class, 'store']);
     Route::post('/atividades/{atividade}', [AtividadeController::class, 'update']);
@@ -65,8 +66,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Itens do Pedido
     Route::apiResource('/itensdopedido', ItensPedidoController::class);
-    Route::get('/itensdopedido/id/{user}', [ItensPedidoController::class, 'listByUserId']);
-
 
 
     // Itens do Carrinho
