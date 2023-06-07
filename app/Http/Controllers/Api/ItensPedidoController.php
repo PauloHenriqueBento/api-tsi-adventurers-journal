@@ -137,6 +137,8 @@ class ItensPedidoController extends Controller
 
         // Atualizar apenas o status do item do pedido
         $status = $request->input('status');
+        $nota = $request->input('nota');
+        $comentario = $request->input('comentario');
         if ($status != 'aprovado' && $status != 'cancelado') {
             return response()->json([
                 'status' => 400,
@@ -145,6 +147,8 @@ class ItensPedidoController extends Controller
         }
 
         $itens->status = $status;
+        $itens->nota = $nota;
+        $itens->comentario = $comentario;
         $itens->save();
 
         return response()->json([

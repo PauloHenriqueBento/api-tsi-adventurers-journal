@@ -26,6 +26,8 @@ class ItensPedidoResource extends JsonResource
             'TotalPedido' => $this->TotalPedido,
             'FormaPag' => $this->FormaPag,
             'qtdPessoa' => $this->qtdPessoa,
+            "nota" => $this->nota,
+            "comentario" => $this->comentario,
             'data' => $this->created_at,
         ];
     }

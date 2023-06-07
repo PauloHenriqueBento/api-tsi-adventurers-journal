@@ -9,7 +9,7 @@ class ItensPedido extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['idUsuario','idAtividade','status','DatadoPedido','TotalPedido','FormaPag','qtdPessoa'];
+    protected $fillable = ['idUsuario', 'idAtividade', 'status', 'DatadoPedido', 'TotalPedido', 'FormaPag', 'qtdPessoa', 'comentario', 'nota'];
 
     protected $primaryKey = 'id';
 
@@ -19,12 +19,13 @@ class ItensPedido extends Model
 
     public $timestamps = true;
 
-    public function user() {
-        return $this->belongsTo(User::class, 'idUsuario','id');
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'idUsuario', 'id');
     }
 
-    public function Atividade() {
-        return $this->hasMany(Atividade::class, 'idAtividade','id');
+    public function Atividade()
+    {
+        return $this->hasMany(Atividade::class, 'idAtividade', 'id');
     }
-   
 }
