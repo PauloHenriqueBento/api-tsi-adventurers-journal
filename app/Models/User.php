@@ -32,6 +32,7 @@ class User extends Authenticatable
         'instagram_url',
         'twitter_url',
         'bio',
+        'assinatura_id'
     ];
 
     /**
@@ -66,5 +67,10 @@ class User extends Authenticatable
     public function itensDoCarrinho()
     {
         return $this->hasMany(ItensDoCarrinho::class,  'idViajante', 'id');
+    }
+
+    public function assinatura()
+    {
+        return $this->belongsTo(Assinatura::class);
     }
 }

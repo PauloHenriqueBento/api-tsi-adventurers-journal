@@ -77,6 +77,9 @@ class UserController extends Controller
         $data['password'] = bcrypt($request->password);
         $data['isGuia'] = $isGuia;
 
+        // Atribuir a assinatura gratuita
+        $data['assinatura_id'] = 1;
+
         // Criar o usuário
         $user = User::create($data);
         $user->modalidades()->attach($request->input('modalidades'));

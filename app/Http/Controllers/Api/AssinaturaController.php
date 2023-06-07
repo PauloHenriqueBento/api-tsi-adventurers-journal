@@ -7,6 +7,7 @@ use App\Models\Assinatura;
 use App\Http\Resources\AssinaturaResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreAssinaturaRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class AssinaturaController extends Controller
 {

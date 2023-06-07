@@ -21,7 +21,7 @@ Route::apiResource('/cidade', CidadeController::class);
 Route::apiResource('/modalidades', ModalidadeController::class);
 Route::apiResource('Api/destino', DestinoController::class);
 
-Route::apiResource('Api/assinatura', AssinaturaController::class);
+Route::apiResource('/assinatura', AssinaturaController::class);
 
 
 
