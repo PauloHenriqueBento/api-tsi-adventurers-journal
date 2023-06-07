@@ -22,5 +22,6 @@ class VerifyCsrfToken extends Middleware
         'carrinho/all',
         'carrinho/all/*',
         'itensdopedido',
+        'itensdopedido/*',
     ];
 }
