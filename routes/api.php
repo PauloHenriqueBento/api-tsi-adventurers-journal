@@ -21,7 +21,7 @@ Route::apiResource('/cidade', CidadeController::class);
 Route::apiResource('/modalidades', ModalidadeController::class);
 Route::apiResource('Api/destino', DestinoController::class);
 
-Route::apiResource('Api/assinatura', AssinaturaController::class);
+Route::apiResource('/assinatura', AssinaturaController::class);
 
 
 
@@ -57,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // Application/Json
 
     Route::get('/atividades/user', [AtividadeController::class, 'listByUser']);
+    Route::get('/atividades/id/{user}', [AtividadeController::class, 'listByUserId']);
     Route::get('/atividades/{atividade}', [AtividadeController::class, 'show']);
     Route::post('/atividades', [AtividadeController::class, 'store']);
     Route::post('/atividades/{atividade}', [AtividadeController::class, 'update']);
@@ -64,6 +65,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Itens do Pedido
     Route::apiResource('/itensdopedido', ItensPedidoController::class);
+    Route::get('/itensdopedido/id/{user}', [ItensPedidoController::class, 'listByUserId']);
+
+
 
     // Itens do Carrinho
     Route::apiResource('/carrinho', ItensDoCarrinhoController::class);

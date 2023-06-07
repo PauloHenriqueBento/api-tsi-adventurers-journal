@@ -31,6 +31,7 @@ class UserResource extends JsonResource
             'modalidade' => ModalidadeResource::collection($this->modalidades),
             'bio' => $this->bio,
             'Guia' => $this->isGuia,
+            'Assinatura' => new AssinaturaResource($this->assinatura),
             'created' => Carbon::make($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }
